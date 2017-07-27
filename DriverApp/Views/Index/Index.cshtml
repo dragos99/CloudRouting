@@ -30,8 +30,8 @@
 			<span> Please sign in with your customer key </span>
 
 			<div class="input-group">
-				<input type="text" class="text-field" name="customer_key" placeholder="Customer key" />
-				<div class="btn" ng-click="auth = true"> Access </div>
+				<input type="text" class="text-field" ng-model="Auth.key" placeholder="Customer key" />
+				<div class="btn" ng-click="Auth.authenticate()"> Access </div>
 			</div>
 		</div>
 	</div>
