@@ -14,8 +14,20 @@ namespace DriverApp.Models
 		public string CityName { get; set; }
 		public string CountryCode { get; set; }
 		public float GivenX { get; set; }
-		public float GivenY;
-		public float GeoX;
-		public float GeoY;
+		public float GivenY { get; set; }
+		public float GeoX { get; set; }
+		public float GeoY { get; set; }
+        public string OrderType { get; set; }
+        public int FixedDurationInSec { get; set; }
+        public string TimeWindowFrom { get; set; }
+        public string TimeWindowTo { get; set; }
+        public int AccountId { get; set; }
+        public int DriverId { get; set; }
+        public int TripId { get; set; }
+        public string StopStartTime { get; set; }
+        public string StopFinishTime { get; set; }
+        public int StopDurationInSec { get; set; }
+        public bool Complete { get; set; }
+        public string Comment { get; set; }
     }
 }
