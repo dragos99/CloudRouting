@@ -69,6 +69,8 @@ namespace DriverApp
             });
 
             app.UseMvc();
+
+
             app.UseStaticFiles();
         }
 

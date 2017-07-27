@@ -11,9 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\js\Auth.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
