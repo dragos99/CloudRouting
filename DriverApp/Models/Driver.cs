@@ -11,7 +11,6 @@ namespace DriverApp.Models
     {
         [Key]
         public string DriverId { get; set; }
-
         public Manager Manager { get; set; }
     }
 }
