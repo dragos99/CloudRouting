@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\js\Api.js" />
+    <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\Auth.js" />
   </ItemGroup>
 

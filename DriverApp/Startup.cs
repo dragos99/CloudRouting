@@ -44,6 +44,7 @@ namespace DriverApp
                 options.AddPolicy("DriversOnly", policy => policy.RequireClaim("Role", "Driver"));
             });
 
+		
             services.AddMvc();
             services.AddAutoMapper();
         }

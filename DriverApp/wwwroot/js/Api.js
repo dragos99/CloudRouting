@@ -4,8 +4,12 @@
 	var app = angular.module('app');
 	app.service('Api', function ($http) {
 
+		this.checkSession = function () {
+			return $http.get('/api/manager');
+		}
+
 		this.authenticate = function (key) {
-			return $http.post('/api/login/manager', key);
+			return $http.post('/api/login/manager', { customerKey: key });
 		}
 
 	});
