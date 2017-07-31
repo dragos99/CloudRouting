@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	var app = angular.module("app", ["ngRoute"]);
+	var app = angular.module("app", ["ngRoute", "ngAnimate"]);
 
 	app.config(function ($httpProvider, $routeProvider, $locationProvider) {
 		$httpProvider.defaults.withCredentials = true;
@@ -8,7 +8,7 @@
 		$locationProvider.html5Mode(true);
 		$routeProvider
 			.when("/", {
-				templateUrl: "views/drivers.html"
+				templateUrl: "views/orders.html"
 			})
 			.when("/drivers", {
 				templateUrl: "views/drivers.html"

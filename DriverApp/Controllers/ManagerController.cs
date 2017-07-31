@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DriverApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using DriverApp.Models;
 using AutoMapper;
 
 namespace DriverApp.Controllers
@@ -26,7 +23,6 @@ namespace DriverApp.Controllers
 
 
         /* Routes */
-
         [HttpGet]
         public JsonResult Index()
         {
@@ -34,21 +30,12 @@ namespace DriverApp.Controllers
         }
 
         [HttpGet("drivers")]
-        public JsonResult GetDrivers()
+        public IEnumerable<SendDriverDto> GetDrivers()
         {
             var customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
             var drivers = _dbRepo.GetDrivers(customerKey);
 
-            return Json(Mapper.Map<IEnumerable<SendDriverDto>>(drivers));
-
-            /*List<SendDriverDto> sendDrivers = new List<SendDriverDto>();
-
-            foreach (var d in drivers)
-            {
-                sendDrivers.Add( new SendDriverDto { driverId = d.DriverId });
-            }
-
-            return Json(sendDrivers);*/
+            return Mapper.Map<IEnumerable<SendDriverDto>>(drivers);
         }
     }
 }

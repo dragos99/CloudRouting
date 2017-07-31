@@ -1,4 +1,36 @@
-<div id="header">
-	<div id="page-title">Orders</div>
-	<div class="btn btn-transparent"> Create new </div>
+<div style="height:100%;" ng-controller="OrdersCtrl as vm">
+	<div id="header">
+		<div id="page-title">Orders</div>
+		<div class="btn btn-transparent  light" ng-click="vm.modal = 'newOrder'"> Create new </div>
+	</div>
+	<div id="container">
+		<div id="newOrderModal" class='modal fade' ng-show="vm.modal === 'newOrder'">
+			<div class="modal-body">
+				<div class="upload-area fade" ng-hide="vm.uploadStep != 1">
+					<label for="upload-btn" class="btn"> Upload </label>
+					<input id="upload-btn" class="btn" type="file">
+					<p> Upload order in CSV format </p>
+				</div>
+
+				<div id="set-view" class="fadein" ng-show="vm.uploadStep == 2">
+					<table id="order-data" class="table">
+						<thead>
+							<tr>
+								<th class="field"> Field </th>
+								<th class="corespondent"> Corespondent </th>
+								<th class="value"> Value </th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn btn-transparent" ng-click="vm.modal = ''"> Cancel </div>
+				<div class="btn uppercase" ng-click="" ng-disabled="vm.uploadStep != 2"> Save </div>
+			</div>
+		</div>
+	</div>
 </div>
