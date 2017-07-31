@@ -1,7 +1,7 @@
 <div style="height:100%;" ng-controller="OrdersCtrl as vm">
 	<div id="header">
 		<div id="page-title">Orders</div>
-		<div class="btn btn-transparent  light" ng-click="vm.modal = 'newOrder'"> Create new </div>
+		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Create new </div>
 	</div>
 	<div id="container">
 		<div id="newOrderModal" class='modal fade' ng-show="vm.modal === 'newOrder'">
@@ -17,18 +17,17 @@
 						<thead>
 							<tr>
 								<th class="field"> Field </th>
-								<th class="corespondent"> Corespondent </th>
 								<th class="value"> Value </th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="tbody">
 
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<div class="btn btn-transparent" ng-click="vm.modal = ''"> Cancel </div>
+				<div class="btn btn-transparent" ng-click="vm.closeOrderCreation()"> Cancel </div>
 				<div class="btn uppercase" ng-click="" ng-disabled="vm.uploadStep != 2"> Save </div>
 			</div>
 		</div>
