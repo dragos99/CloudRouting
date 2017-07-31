@@ -33,8 +33,11 @@ namespace DriverApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           // string connectionString = @"Server=(localdb)\mssqllocaldb;Database=DriverAppDb;Trusted_Connection=true;";
-            services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
+            services.AddMvc();
+
+            //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=DriverApp;Trusted_Connection=True;";
+            services.AddDbContext<ApiContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<DbRepository>();
 
@@ -43,9 +46,6 @@ namespace DriverApp
                 options.AddPolicy("ManagersOnly", policy => policy.RequireClaim("Role", "Manager"));
                 options.AddPolicy("DriversOnly", policy => policy.RequireClaim("Role", "Driver"));
             });
-
-		
-            services.AddMvc();
             services.AddAutoMapper();
         }
 
