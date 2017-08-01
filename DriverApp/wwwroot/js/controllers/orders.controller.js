@@ -12,30 +12,46 @@
         this.uploadStep = 1;
 
         var uploadBtn = document.querySelector('#upload-btn');
-        var orderTable = document.querySelector('#order-data');
+        var orderTable = document.querySelector('#tbody');
 
-        function loadCSV(evt) {
+        this.openOrderCreation = function() {
+            this.modal = 'newOrder';
+        }
+
+        this.closeOrderCreation = function() {
+            this.modal = '';
+            uploadBtn.value = '';
+            setTimeout(function() {
+                _this.uploadStep = 1;
+                orderTable.innerHTML = '';
+                $scope.$apply();
+            }, 300);
+        }
+
+        this.loadCSV = function(evt) {
             var files = evt.target.files;
             var f = files[0];
+            console.log(f);
 
             var reader = new FileReader();
 
             reader.onload = function(file) {
                 var csv = file.target.result;
-                var rows = csv.split('\r\n');
+                var rows = csv.split('\n');
                 var columns = rows[0].split(',');
                 var values = rows[1].split(',');
                 _this.uploadStep = 2;
 
-                for (var i = 0; i < fields.length; ++i) {
+                for (var i = 0; i < columns.length; ++i) {
                     var row = orderTable.insertRow();
-                    // insert field
+                    /*// insert field
                     var cell = row.insertCell();
-                    cell.innerHTML = fields[i];
+                    cell.innerHTML = fields[i];*/
 
                     // insert corespondent
-                    cell = row.insertCell();
-                    var idx = columns.indexOf(fields[i]);
+                    var cell = row.insertCell();
+                    //var idx = columns.indexOf(fields[i]);
+                    var idx = i;
 
                     if (idx != -1) {
                         cell.innerHTML = columns[idx];
@@ -60,6 +76,6 @@
 
 
 
-        uploadBtn.addEventListener('change', loadCSV);
+        uploadBtn.addEventListener('change', this.loadCSV);
     }
 })();
