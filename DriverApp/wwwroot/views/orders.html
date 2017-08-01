@@ -5,30 +5,32 @@
 	</div>
 	<div id="container">
 		<div id="orders">
-			<div class="order-box" ng-repeat="order in vm.orders">
-				<div class="order-header clearfix">
-					<div class="half">Order #{{order.id}}</div>
-					<div class="half"> {{order.orderType}} </div>
-				</div>
-				<div class="order-body">
-					<table>
-						<tr>
-							<th> City name </th>
-							<th> Street name </th>
-						</tr>
-						<tr>
-							<td> {{order.cityName}} </td>
-							<td> {{order.streetName + ' ' + order.streetNumber}} </td>
-						</tr>
-						<tr>
-							<th> From </th>
-							<th> Until </th>
-						</tr>
-						<tr>
-							<td> {{order.timeWindowFrom}} </td>
-							<td> {{order.timeWindowTill}} </td>
-						</tr>
-					</table>
+			<div class="order-container fadein" ng-repeat="order in vm.orders">
+				<div class="order-box">
+					<div class="order-header clearfix">
+						<div class="half">Order #{{order.id}}</div>
+						<div class="half"> {{order.orderType}} </div>
+					</div>
+					<div class="order-body">
+						<table>
+							<tr>
+								<th> City name </th>
+								<th> Street name </th>
+							</tr>
+							<tr>
+								<td> {{order.cityName}} </td>
+								<td> {{order.streetName + ' ' + order.streetNumber}} </td>
+							</tr>
+							<tr>
+								<th> From </th>
+								<th> Until </th>
+							</tr>
+							<tr>
+								<td> {{order.timeWindowFrom}} </td>
+								<td> {{order.timeWindowTill}} </td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

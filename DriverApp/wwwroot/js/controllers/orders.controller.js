@@ -45,7 +45,7 @@
 
                     $timeout(function() {
                         _this.closeOrderCreation();
-                        _this.insertOrderInHTML(_this.order);
+                        _this.orders.push(_this.order);
                     }, 1500);
                 }
             });

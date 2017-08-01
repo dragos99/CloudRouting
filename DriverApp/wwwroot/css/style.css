@@ -164,7 +164,7 @@ h1, h2, h3, h4 {
     color: #464646;
     background: #fcfcfc;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
-    animation: expand 0.6s cubic-bezier(.25,.8,.25,1);
+    animation: expand-modal 0.6s cubic-bezier(.25,.8,.25,1);
 }
 .modal > div {
     padding: 0 45px;
@@ -208,7 +208,7 @@ h1, h2, h3, h4 {
 
 
 
-@keyframes expand {
+@keyframes expand-modal {
     0% { width: 0%; height: 0%; opacity: 0; }
     100% {
         width: 87%;
