@@ -1,14 +1,14 @@
-<div style="height:100%;" ng-controller="OrdersCtrl as vm">
+<div style="height:100%;">
 	<div id="header">
 		<div id="page-title">Orders</div>
 		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Create new </div>
 	</div>
 	<div id="container">
 		<div id="orders">
-			<div class="order-box">
+			<div class="order-box" ng-repeat="order in vm.orders">
 				<div class="order-header clearfix">
-					<div class="half">Order #1</div>
-					<div class="half">Delivery</div>
+					<div class="half">Order #{{order.id}}</div>
+					<div class="half"> {{order.orderType}} </div>
 				</div>
 				<div class="order-body">
 					<table>
@@ -17,120 +17,16 @@
 							<th> Street name </th>
 						</tr>
 						<tr>
-							<td> Bucuresti </td>
-							<td> Bulevardul Timisoara 4A</td>
+							<td> {{order.cityName}} </td>
+							<td> {{order.streetName + ' ' + order.streetNumber}} </td>
 						</tr>
 						<tr>
 							<th> From </th>
 							<th> Until </th>
 						</tr>
 						<tr>
-							<td> 2017-11-9 T12:00 </td>
-							<td> 2017-11-9 T16:00 </td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="order-box">
-				<div class="order-header clearfix">
-					<div class="half">Order #1</div>
-					<div class="half">Delivery</div>
-				</div>
-				<div class="order-body">
-					<table>
-						<tr>
-							<th> City name </th>
-							<th> Street name </th>
-						</tr>
-						<tr>
-							<td> Bucuresti </td>
-							<td> Bulevardul Timisoara 4A</td>
-						</tr>
-						<tr>
-							<th> From </th>
-							<th> Until </th>
-						</tr>
-						<tr>
-							<td> 2017-11-9 T12:00 </td>
-							<td> 2017-11-9 T16:00 </td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="order-box">
-				<div class="order-header clearfix">
-					<div class="half">Order #1</div>
-					<div class="half">Delivery</div>
-				</div>
-				<div class="order-body">
-					<table>
-						<tr>
-							<th> City name </th>
-							<th> Street name </th>
-						</tr>
-						<tr>
-							<td> Bucuresti </td>
-							<td> Bulevardul Timisoara 4A</td>
-						</tr>
-						<tr>
-							<th> From </th>
-							<th> Until </th>
-						</tr>
-						<tr>
-							<td> 2017-11-9 T12:00 </td>
-							<td> 2017-11-9 T16:00 </td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="order-box">
-				<div class="order-header clearfix">
-					<div class="half">Order #1</div>
-					<div class="half">Delivery</div>
-				</div>
-				<div class="order-body">
-					<table>
-						<tr>
-							<th> City name </th>
-							<th> Street name </th>
-						</tr>
-						<tr>
-							<td> Bucuresti </td>
-							<td> Bulevardul Timisoara 4A</td>
-						</tr>
-						<tr>
-							<th> From </th>
-							<th> Until </th>
-						</tr>
-						<tr>
-							<td> 2017-11-9 T12:00 </td>
-							<td> 2017-11-9 T16:00 </td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="order-box">
-				<div class="order-header clearfix">
-					<div class="half">Order #1</div>
-					<div class="half">Delivery</div>
-				</div>
-				<div class="order-body">
-					<table>
-						<tr>
-							<th> City name </th>
-							<th> Street name </th>
-						</tr>
-						<tr>
-							<td> Bucuresti </td>
-							<td> Bulevardul Timisoara 4A</td>
-						</tr>
-						<tr>
-							<th> From </th>
-							<th> Until </th>
-						</tr>
-						<tr>
-							<td> 2017-11-9 T12:00 </td>
-							<td> 2017-11-9 T16:00 </td>
+							<td> {{order.timeWindowFrom}} </td>
+							<td> {{order.timeWindowTill}} </td>
 						</tr>
 					</table>
 				</div>

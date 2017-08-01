@@ -6,7 +6,7 @@
     var app = angular.module('app');
     app.controller('OrdersCtrl', OrdersController);
 
-    function OrdersController($scope, $timeout, Api) {
+    function OrdersController($scope, $timeout, Api, orders) {
         var _this = this;
         var reader = new FileReader();
         var uploadBtn = document.querySelector('#upload-btn');
@@ -15,19 +15,18 @@
         this.modal = '';
         this.uploadStep = 1;
         this.order = {};
-
-
+        this.orders = orders;
 
         /**   Methods   **/
 
         this.openOrderCreation = function() {
             this.modal = 'newOrder';
+            _this.order = {};
         }
 
         this.closeOrderCreation = function() {
             this.modal = '';
             uploadBtn.value = '';
-            this.order = {};
 
             $timeout(function() {
                 _this.uploadStep = 1;
@@ -37,15 +36,18 @@
 
         this.saveOrder = function() {
             Api.sendNewOrder(this.order).then(function(res) {
-                console.log(res);
-                _this.uploadStep = 3;
+                console.log(res.data);
+                if (res.data.error) {
+                    console.log(res.data.error);
+                } else {
+                    _this.uploadStep = 3;
+                    _this.order.id = res.data.id;
 
-                $timeout(function() {
-                    _this.closeOrderCreation();
-                }, 1500);
-
-            }, function(res) {
-                console.log('error', res);
+                    $timeout(function() {
+                        _this.closeOrderCreation();
+                        _this.insertOrderInHTML(_this.order);
+                    }, 1500);
+                }
             });
         }
 
@@ -85,6 +87,5 @@
                 _this.order[columns[i]] = values[i];
             }
         }
-
     }
 })();

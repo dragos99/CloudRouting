@@ -43,19 +43,20 @@ namespace DriverApp.Controllers
         }
 
 		[HttpPost("newOrder")]
-		public StatusCodeResult NewOrder([FromBody] Order order)
+		public JsonResult NewOrder([FromBody] Order order)
 		{
 			try
 			{
 				_db.Orders.Add(order);
 				_db.SaveChanges();
+				_db.Entry(order).GetDatabaseValues();
 			} catch (Exception e)
 			{
 				_logger.LogError(e.Message);
-				return StatusCode(500);
+				return Json(new { error = e.Message });
 			}
 
-			return Ok();
+			return Json(new { id = order.Id });
 		}
     }
 }

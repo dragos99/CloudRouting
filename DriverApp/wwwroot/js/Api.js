@@ -16,5 +16,11 @@
 			return $http.post('/api/manager/newOrder', order);
 		}
 
+		this.getOrders = function() {
+			return $http.get('/api/orders').then(function(res) {
+				return res.data;
+			});
+		}
+
 	});
 })();
