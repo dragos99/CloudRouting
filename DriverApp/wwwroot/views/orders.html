@@ -4,15 +4,46 @@
 		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Create new </div>
 	</div>
 	<div id="container">
+		<div id="orders">
+			<div class="order-box">
+				<div class="row">
+					<div class="half">Order #1</div>
+					<div class="half">Delivery</div>
+				</div>
+				<div class="row">
+					<div class="half">Order #1</div>
+					<div class="half">Delivery</div>
+				</div>
+				<div class="row">
+					<div class="half">Order #1</div>
+					<div class="half">Delivery</div>
+				</div>
+			</div>
+			<div class="order-box">
+				<div class="row">
+					<div class="half">Order #1</div>
+					<div class="half">Delivery</div>
+				</div>
+				<div class="row">
+					<div class="half">Order #1</div>
+					<div class="half">Delivery</div>
+				</div>
+				<div class="row">
+					<div class="half">Order #1</div>
+					<div class="half">Delivery</div>
+				</div>
+			</div>
+		</div>
+
 		<div id="newOrderModal" class='modal fade' ng-show="vm.modal === 'newOrder'">
 			<div class="modal-body">
-				<div class="upload-area fade" ng-hide="vm.uploadStep != 1">
+				<div class="upload-area fade" ng-show="vm.uploadStep == 1">
 					<label for="upload-btn" class="btn"> Upload </label>
 					<input id="upload-btn" class="btn" type="file">
 					<p> Upload order in CSV format </p>
 				</div>
 
-				<div id="set-view" class="fadein" ng-show="vm.uploadStep == 2">
+				<div id="set-view" class="fadein fade" ng-show="vm.uploadStep == 2">
 					<table id="order-data" class="table">
 						<thead>
 							<tr>
@@ -25,10 +56,15 @@
 						</tbody>
 					</table>
 				</div>
+
+				<div id="notify_success" class="fadein" ng-show="vm.uploadStep == 3">
+					<img src="img/success.svg" width="100px"/>
+					<h3>Success! A new order has been added.</h3>
+				</div>
 			</div>
 			<div class="modal-footer">
-				<div class="btn btn-transparent" ng-click="vm.closeOrderCreation()"> Cancel </div>
-				<div class="btn uppercase" ng-click="" ng-disabled="vm.uploadStep != 2"> Save </div>
+				<div class="btn btn-transparent fade" ng-click="vm.closeOrderCreation()" ng-show="vm.uploadStep != 3"> Cancel </div>
+				<div class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </div>
 			</div>
 		</div>
 	</div>

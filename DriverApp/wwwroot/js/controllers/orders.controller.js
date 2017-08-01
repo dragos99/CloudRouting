@@ -6,7 +6,7 @@
     var app = angular.module('app');
     app.controller('OrdersCtrl', OrdersController);
 
-    function OrdersController($scope) {
+    function OrdersController($scope, $timeout) {
         var _this = this;
         this.modal = '';
         this.uploadStep = 1;
@@ -21,17 +21,22 @@
         this.closeOrderCreation = function() {
             this.modal = '';
             uploadBtn.value = '';
-            setTimeout(function() {
+            $timeout(function() {
                 _this.uploadStep = 1;
                 orderTable.innerHTML = '';
-                $scope.$apply();
             }, 300);
         }
 
-        this.loadCSV = function(evt) {
+        this.saveOrder = function() {
+            this.uploadStep = 3;
+            $timeout(function() {
+                _this.closeOrderCreation();
+            }, 1500);
+        }
+
+        function loadCSV(evt) {
             var files = evt.target.files;
             var f = files[0];
-            console.log(f);
 
             var reader = new FileReader();
 
@@ -40,42 +45,27 @@
                 var rows = csv.split('\n');
                 var columns = rows[0].split(',');
                 var values = rows[1].split(',');
-                _this.uploadStep = 2;
 
                 for (var i = 0; i < columns.length; ++i) {
                     var row = orderTable.insertRow();
-                    /*// insert field
+
+                    // insert field
                     var cell = row.insertCell();
-                    cell.innerHTML = fields[i];*/
+                    cell.innerHTML = columns[i];
 
-                    // insert corespondent
-                    var cell = row.insertCell();
-                    //var idx = columns.indexOf(fields[i]);
-                    var idx = i;
-
-                    if (idx != -1) {
-                        cell.innerHTML = columns[idx];
-
-                        // insert value
-                        cell = row.insertCell();
-                        cell.innerHTML = values[idx];
-                    } else {
-                        cell.innerHTML = "";
-
-                        // insert value
-                        cell = row.insertCell();
-                        cell.innerHTML = "";
-                    }
+                    // insert value
+                    cell = row.insertCell();
+                    cell.innerHTML = values[i];
                 }
-
-                $scope.$apply();
             }
 
             reader.readAsText(f);
+            _this.uploadStep = 2;
+            $scope.$apply();
         }
 
 
 
-        uploadBtn.addEventListener('change', this.loadCSV);
+        uploadBtn.addEventListener('change', loadCSV);
     }
 })();

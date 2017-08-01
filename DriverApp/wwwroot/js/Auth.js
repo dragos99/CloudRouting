@@ -9,7 +9,6 @@
 		this.user = null;
 
 		this.authenticate = function () {
-			console.log(this.key);
 			Api.authenticate(this.key).then(function (res) {
 				_this.authenticated = true;
 			}, function (res) {
