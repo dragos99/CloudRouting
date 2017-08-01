@@ -37,5 +37,12 @@ namespace DriverApp.Controllers
 
             return Mapper.Map<IEnumerable<SendDriverDto>>(drivers);
         }
+
+		[HttpPost("newOrder")]
+		public StatusCodeResult NewOrder([FromBody] ReceiveOrderDto order)
+		{
+
+			return Ok();
+		}
     }
 }

@@ -20,4 +20,18 @@ namespace DriverApp
     {
         public string driverId;
     }
+
+	public class ReceiveOrderDto
+	{
+		public string ordeType;
+		public string streetName;
+		public string streetNumber;
+		public string cityName;
+		public string countryCode;
+		public float latitude;
+		public float longitude;
+		public int fixedDurationInSec;
+		public string timeWindowFrom;
+		public string timeWindowTill;
+	}
 }
