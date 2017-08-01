@@ -36,7 +36,7 @@ namespace DriverApp
             services.AddMvc();
 
             //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=DriverApp;Trusted_Connection=True;";
+            var connection = @"Server=tcp:cloudroutingort1dbserver.database.windows.net,1433;Initial Catalog=CLOUDROUTINGORT1_db;Persist Security Info=False;User ID=crort_user;Password=Ortec1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<DbRepository>();

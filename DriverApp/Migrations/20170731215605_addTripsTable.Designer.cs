@@ -8,8 +8,8 @@ using DriverApp.Models;
 namespace DriverApp.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20170731093856_addOrdersTable")]
-    partial class addOrdersTable
+    [Migration("20170731215605_addTripsTable")]
+    partial class addTripsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,24 +22,26 @@ namespace DriverApp.Migrations
                     b.Property<string>("DriverId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Done");
+                    b.Property<string>("CustomerKey");
 
-                    b.Property<string>("ManagerCustomerKey");
+                    b.Property<int?>("ManagerDriverId");
 
                     b.HasKey("DriverId");
 
-                    b.HasIndex("ManagerCustomerKey");
+                    b.HasIndex("ManagerDriverId");
 
                     b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("DriverApp.Models.Manager", b =>
                 {
-                    b.Property<string>("CustomerKey")
+                    b.Property<int>("DriverId")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(4);
 
-                    b.HasKey("CustomerKey");
+                    b.Property<string>("CustomerKey");
+
+                    b.HasKey("DriverId");
 
                     b.ToTable("Managers");
                 });
@@ -96,11 +98,37 @@ namespace DriverApp.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("DriverApp.Models.Trip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccountId");
+
+                    b.Property<string>("AvailableFromTime");
+
+                    b.Property<string>("AvailableTillTime");
+
+                    b.Property<int>("DriverId");
+
+                    b.Property<string>("FinishTime");
+
+                    b.Property<string>("StartTime");
+
+                    b.Property<int>("TotalDistanceInKm");
+
+                    b.Property<int>("TotalDurationInSec");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Trips");
+                });
+
             modelBuilder.Entity("DriverApp.Models.Driver", b =>
                 {
                     b.HasOne("DriverApp.Models.Manager", "Manager")
                         .WithMany("Drivers")
-                        .HasForeignKey("ManagerCustomerKey");
+                        .HasForeignKey("ManagerDriverId");
                 });
         }
     }

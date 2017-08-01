@@ -28,6 +28,12 @@ namespace DriverApp.Services
             //return GetManager(key).Drivers;
         }
 
+        public IEnumerable<Order> GetAvailableOrders()
+        {
+            IEnumerable<Order> orders = _db.Orders.Where(m => m.Complete == false && m.TripId == 0);
+            return orders;
+        }
+
         public Driver GetDriver(string key, string id)
         {
             return _db.Drivers.Include(d => d.Manager).Where(d => d.DriverId == id && d.Manager.CustomerKey == key).FirstOrDefault();

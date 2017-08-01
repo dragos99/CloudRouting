@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -62,7 +63,6 @@ namespace DriverApp.Controllers
                 new Claim("DriverId", driverId),
                 new Claim("Role", "Driver")
             };
-
             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
 
             await HttpContext.Authentication.SignInAsync("CookieAuth", principal);

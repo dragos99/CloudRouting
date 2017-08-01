@@ -8,9 +8,10 @@ using DriverApp.Models;
 namespace DriverApp.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    partial class ApiContextModelSnapshot : ModelSnapshot
+    [Migration("20170731113937_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -95,32 +96,6 @@ namespace DriverApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("DriverApp.Models.Trip", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccountId");
-
-                    b.Property<string>("AvailableFromTime");
-
-                    b.Property<string>("AvailableTillTime");
-
-                    b.Property<int>("DriverId");
-
-                    b.Property<string>("FinishTime");
-
-                    b.Property<string>("StartTime");
-
-                    b.Property<int>("TotalDistanceInKm");
-
-                    b.Property<int>("TotalDurationInSec");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Trips");
                 });
 
             modelBuilder.Entity("DriverApp.Models.Driver", b =>
