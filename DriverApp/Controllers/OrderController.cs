@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace DriverApp.Controllers
 {
     [Produces("application/json")]
-    [Route("api/order")]
+    [Route("api/orders")]
     public class OrderController : Controller
     {
         private DbRepository _dbRepo;

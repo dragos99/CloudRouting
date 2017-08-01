@@ -9,10 +9,10 @@
 		this.user = null;
 
 		this.authenticate = function () {
-			Api.authenticate(this.key).then(function (res) {
+			Api.authenticate(this.key).then(function(res) {
 				_this.authenticated = true;
-			}, function (res) {
-				console.log("error", res.statusText);
+			}, function(res) {
+				console.log('error', res.statusText);
 			});
 		}
 	});

@@ -25,7 +25,10 @@
 		$rootScope.Auth = Auth;
 
 		Api.checkSession().then(function () {
+			console.log('Session available');
 			Auth.authenticated = true;
+		}, function() {
+			console.log('Not authenticated');
 		});
 	});
 

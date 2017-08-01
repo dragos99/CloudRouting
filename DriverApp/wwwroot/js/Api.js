@@ -12,5 +12,9 @@
 			return $http.post('/api/login/manager', { customerKey: key });
 		}
 
+		this.sendNewOrder = function(order) {
+			return $http.post('/api/manager/newOrder', order);
+		}
+
 	});
 })();
