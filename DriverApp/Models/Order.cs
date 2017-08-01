@@ -20,7 +20,7 @@ namespace DriverApp.Models
         public string OrderType { get; set; }
         public int FixedDurationInSec { get; set; }
         public string TimeWindowFrom { get; set; }
-        public string TimeWindowTo { get; set; }
+        public string TimeWindowTill { get; set; }
         public int AccountId { get; set; }
         public int DriverId { get; set; }
         public int TripId { get; set; }

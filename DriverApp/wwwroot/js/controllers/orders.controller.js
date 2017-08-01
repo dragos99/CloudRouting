@@ -38,7 +38,7 @@
         this.saveOrder = function() {
             Api.sendNewOrder(this.order).then(function(res) {
                 console.log(res);
-                this.uploadStep = 3;
+                _this.uploadStep = 3;
 
                 $timeout(function() {
                     _this.closeOrderCreation();

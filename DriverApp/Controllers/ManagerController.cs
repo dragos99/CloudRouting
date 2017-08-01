@@ -5,6 +5,8 @@ using DriverApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using DriverApp.Models;
+using System;
 
 namespace DriverApp.Controllers
 {
@@ -14,9 +16,11 @@ namespace DriverApp.Controllers
     {
         private DbRepository _dbRepo;
         private ILogger _logger;
+		private ApiContext _db;
 
-        public ManagerController(DbRepository dbRepo, ILoggerFactory loggerFactory)
+        public ManagerController(ApiContext db, DbRepository dbRepo, ILoggerFactory loggerFactory)
         {
+			_db = db;
             _dbRepo = dbRepo;
             _logger = loggerFactory.CreateLogger("ManagerLogger");
         }
@@ -39,8 +43,17 @@ namespace DriverApp.Controllers
         }
 
 		[HttpPost("newOrder")]
-		public StatusCodeResult NewOrder([FromBody] ReceiveOrderDto order)
+		public StatusCodeResult NewOrder([FromBody] Order order)
 		{
+			try
+			{
+				_db.Orders.Add(order);
+				_db.SaveChanges();
+			} catch (Exception e)
+			{
+				_logger.LogError(e.Message);
+				return StatusCode(500);
+			}
 
 			return Ok();
 		}

@@ -67,6 +67,7 @@ namespace DriverApp
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Driver, SendDriverDto>();
+				config.CreateMap<ReceiveOrderDto, Order>();
             });
 
             app.UseMvc();
