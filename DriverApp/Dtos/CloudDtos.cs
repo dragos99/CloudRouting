@@ -36,4 +36,9 @@ namespace DriverApp.Dtos.CloudDtos
 		public string Type;
 		public int Id;
 	}
+
+	public struct Route
+	{
+		public int Id;
+	}
 }
