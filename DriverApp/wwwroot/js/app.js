@@ -36,8 +36,7 @@
 
 		Api.checkSession().then(function () {
 			console.log('Session available');
-			$location.path = '/orders';
-			Auth.authenticated = true;
+			Auth.auth(true);
 		}, function() {
 			console.log('Not authenticated');
 		});

@@ -1,4 +1,5 @@
-﻿using DriverApp.Models;
+﻿using DriverApp.Dtos;
+using DriverApp.Models;
 using DriverApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;

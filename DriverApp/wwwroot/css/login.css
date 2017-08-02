@@ -8,6 +8,7 @@
 	background: linear-gradient(to bottom, rgb(35, 204, 239) 0%, rgb(64, 145, 255) 100%);
 	z-index: 100;
 	color: #777;
+	transition: all 0.4s;
 }
 
 

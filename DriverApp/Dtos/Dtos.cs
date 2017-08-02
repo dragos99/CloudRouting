@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DriverApp
+namespace DriverApp.Dtos
 {
     public class ReceiveManagerLoginDto
     {
@@ -34,4 +34,5 @@ namespace DriverApp
 		public string timeWindowFrom;
 		public string timeWindowTill;
 	}
+
 }

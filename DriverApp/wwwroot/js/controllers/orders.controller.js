@@ -36,7 +36,6 @@
 
         this.saveOrder = function() {
             Api.sendNewOrder(this.order).then(function(res) {
-                console.log(res.data);
                 if (res.data.error) {
                     console.log(res.data.error);
                 } else {
@@ -45,7 +44,10 @@
 
                     $timeout(function() {
                         _this.closeOrderCreation();
-                        _this.orders.push(_this.order);
+                        anim();
+                        $timeout(function() {
+                            _this.orders.push(_this.order);
+                        }, 1000);
                     }, 1500);
                 }
             });
@@ -89,3 +91,8 @@
         }
     }
 })();
+
+function anim () {
+    var el = jq("#orders-container");
+    el.animate({scrollTop: el[0].scrollHeight}, 1000);
+}

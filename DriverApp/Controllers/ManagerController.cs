@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using DriverApp.Models;
 using System;
+using DriverApp.Dtos;
 
 namespace DriverApp.Controllers
 {
@@ -17,12 +18,14 @@ namespace DriverApp.Controllers
         private DbRepository _dbRepo;
         private ILogger _logger;
 		private ApiContext _db;
+		public CloudApi _cloudApi;
 
-        public ManagerController(ApiContext db, DbRepository dbRepo, ILoggerFactory loggerFactory)
+        public ManagerController(ApiContext db, DbRepository dbRepo, ILoggerFactory loggerFactory, CloudApi cloudApi)
         {
 			_db = db;
             _dbRepo = dbRepo;
             _logger = loggerFactory.CreateLogger("ManagerLogger");
+			_cloudApi = cloudApi;
         }
 
 

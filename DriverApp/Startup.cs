@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using DriverApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
+using DriverApp.Dtos;
 
 namespace DriverApp
 {
@@ -35,28 +36,29 @@ namespace DriverApp
         {
             services.AddMvc();
 
-            //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
             var connection = @"Server=tcp:cloudroutingort1dbserver.database.windows.net,1433;Initial Catalog=CLOUDROUTINGORT1_db;Persist Security Info=False;User ID=crort_user;Password=Ortec1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<DbRepository>();
+			services.AddSingleton<CloudApi>();
 
-            services.AddAuthorization(options =>
+			services.AddAuthorization(options =>
             {
                 options.AddPolicy("ManagersOnly", policy => policy.RequireClaim("Role", "Manager"));
                 options.AddPolicy("DriversOnly", policy => policy.RequireClaim("Role", "Driver"));
             });
+
             services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CloudApi cloudApi)
         {
 
             loggerFactory.AddDebug();
 
             var context = app.ApplicationServices.GetService<ApiContext>();
-            AddTestData(context);
+			cloudApi.GetRouteAsync();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
