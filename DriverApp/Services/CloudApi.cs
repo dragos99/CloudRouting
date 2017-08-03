@@ -24,54 +24,31 @@ namespace DriverApp.Services
 			_client = new HttpClient();
 			_client.BaseAddress = new Uri("https://test.orteccloudservices.com");
 		}
-
-		public async Task GetRouteAsync()
-		{
-			try
-			{
-				StringContent content = new StringContent("{\"message\": \"Hello Ortec\"}", Encoding.UTF8, "application/json");
-				var response = await _client.PostAsync($"/api/v1/routing?key={_key}&profile={_routingProfile}&async=false", content);
-				response.EnsureSuccessStatusCode();
-
-				var stringResult = await response.Content.ReadAsStringAsync();
-				_logger.LogInformation(stringResult);
-			}
-			catch (HttpRequestException e)
-			{
-				_logger.LogInformation($"Error getting route from OrtecCloud: {e.Message}");
-			}
-		}
         public async Task<TriggerResponse> TriggerRouting(IEnumerable<Order> orders)
         {
             var client = new HttpClient();
-            string stringResult = null;
             TriggerResponse trip = null;
             try
             {
+                client.BaseAddress = new Uri("https://test.orteccloudservices.com");
+                /*        */
+                // Creating the Request
                 TriggerRequest triggerRequest = new TriggerRequest();
                 triggerRequest.RequestReference = 1;
                 triggerRequest.RequestParameters.Add(new Parameter { Name = "command", Value = "single-route" });
-                foreach(var order in orders)
+                triggerRequest.Data.Addresses.Add(new Address { Lat = 44.0121f, Long = 23.1393f, Id = "depot" });
+                triggerRequest.Data.Depots.Add(new Depot { AddressId = "depot", Id = "depot1" });
+                triggerRequest.Data.Routes.Add(new Route { Id = "1" });
+                foreach (var order in orders)
                 {
                     triggerRequest.Data.Addresses.Add(new Address { Lat = order.GeoX, Long = order.GeoY, Id = "" + order.Id });
                     triggerRequest.Data.Orders.Add(new RequestOrder { TimeWindowTill = order.TimeWindowTill, TimeWindowFrom = order.TimeWindowFrom, FixedDurationInSec = order.FixedDurationInSec, AddressId = "" + order.Id, Type = order.OrderType, Id = Int32.Parse(order.OrderNumber) });
                 }
-                triggerRequest.Data.Addresses.Add(new Address { Lat = 44.0121f, Long = 23.1393f, Id = "depot" });
-                triggerRequest.Data.Depots.Add(new Depot { AddressId = "depot", Id = "depot1" });
-                triggerRequest.Data.Routes.Add(new Route { Id = "1" });
+                /*        */
 
-                var json = JsonConvert.SerializeObject(triggerRequest);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                _logger.LogInformation("The serialized object is {0}", JsonConvert.SerializeObject(triggerRequest));
-
-                client.BaseAddress = new Uri("https://test.orteccloudservices.com");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(triggerRequest), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync($"/api/v1/routing?key={_key}&profile={_routingProfile}&async=false", content);
-
-                stringResult = response.Content.ReadAsStringAsync().Result;
-                _logger.LogInformation(stringResult);
-
-                trip = JsonConvert.DeserializeObject<TriggerResponse>(stringResult);
-                _logger.LogInformation("Trip is: {0}", trip);
+                trip = JsonConvert.DeserializeObject<TriggerResponse>(response.Content.ReadAsStringAsync().Result);
             }
             catch (HttpRequestException httpRequestException)
             {

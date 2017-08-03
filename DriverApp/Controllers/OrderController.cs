@@ -36,14 +36,15 @@ namespace DriverApp.Controllers
         [HttpPost("trigger")]
         public StatusCodeResult TriggerRouting([FromBody] ReceiveDriverLoginDto data)
         {
-            string customerKey = data.customerKey;
-            string driverId = data.driverId;
-            if (string.IsNullOrEmpty(customerKey) || string.IsNullOrEmpty(driverId)) return StatusCode(400);
-
-            Driver acc = _dbRepo.GetDriver(customerKey, driverId);
-            if (acc == null) return StatusCode(404);
-
-            _dbRepo.InsertTrip(_cloudApi.TriggerRouting(_dbRepo.GetAvailableOrders()).Result, data.driverId);
+            if (_dbRepo.IsValidLogin(data))
+            {
+                var query = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(_dbRepo.GetAvailableOrders()).Result, data.driverId);
+                if(query)
+                {
+                    return StatusCode(200);
+                }
+                return StatusCode(400);
+            }
             return StatusCode(400);
         }
     }

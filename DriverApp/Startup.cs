@@ -53,9 +53,6 @@ namespace DriverApp
 
             loggerFactory.AddDebug();
 
-            var context = app.ApplicationServices.GetService<ApiContext>();
-			cloudApi.GetRouteAsync();
-
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AuthenticationScheme = "CookieAuth",

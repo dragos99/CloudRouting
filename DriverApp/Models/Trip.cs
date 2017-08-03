@@ -16,18 +16,5 @@ namespace DriverApp.Models
         public string FinishTime { get; set; }
         public float TotalDistanceInKm { get; set; }
         public int TotalDurationInSec { get; set; }
-
-        /*public Trip()
-        {
-            Id = 0;
-            AccountId = 0;
-            DriverId = 0;
-            AvailableFromTime = "0";
-            AvailableTillTime = "0";
-            StartTime = "0";
-            FinishTime = "0";
-            TotalDistanceInKm = 0f;
-            TotalDurationInSec = 0;
-        }*/
     }
 }
