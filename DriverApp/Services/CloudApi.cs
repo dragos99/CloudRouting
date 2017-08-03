@@ -41,35 +41,43 @@ namespace DriverApp.Services
 				_logger.LogInformation($"Error getting route from OrtecCloud: {e.Message}");
 			}
 		}
-        public string TriggerRouting(TriggerRequest triggerRequest)
-        {
-            var result = xTriggerRouting(triggerRequest).Result;
-            _logger.LogInformation("The result is {0}", result);
-            return result;
-        }
-        public async Task<string> xTriggerRouting(TriggerRequest triggerRequest)
+        public async Task<TriggerResponse> TriggerRouting(IEnumerable<Order> orders)
         {
             var client = new HttpClient();
             string stringResult = null;
+            TriggerResponse trip = null;
             try
             {
-                //StringContent content = new StringContent("{ \"requestReference\": \"13243\", \"requestParameters\": [{ \"name\": \"command\", \"value\": \"single-route\" }], \"data\": { \"addresses\": [{ \"lat\": 50.140964, \"long\": 8.662275, \"id\": \"886627\" }, { \"lat\": 50.167130, \"long\": 8.679496, \"id\": \"1867807\" }, { \"lat\": 50.133628, \"long\": 8.671028, \"id\": \"3038836\" }, { \"lat\": 50.118740, \"long\": 8.699856, \"id\": \"depot\" }], \"depots\": [{ \"addressId\": \"depot\", \"id\": \"depot1\" }], \"orders\": [{ \"timeWindowTill\": \"2015-04-14T15:00:00\", \"timeWindowFrom\": \"2015-04-14T11:00:00\", \"fixedDurationInSec\": 300, \"addressId\": \"886627\", \"type\": \"delivery\", \"id\": \"9436340\" }, { \"timeWindowTill\": \"2015-04-14T15:00:00\", \"timeWindowFrom\": \"2015-04-14T11:00:00\", \"fixedDurationInSec\": 600, \"addressId\": \"1867807\", \"type\": \"delivery\", \"id\": \"9436343\" }, { \"timeWindowTill\": \"2015-04-14T15:00:00\", \"timeWindowFrom\": \"2015-04-14T11:00:00\", \"fixedDurationInSec\": 300, \"addressId\": \"3038836\", \"type\": \"delivery\", \"id\": \"9436347\" }], \"routes\": [{ \"id\": \"302901\" }] } }", Encoding.UTF8, "application/json");
+                TriggerRequest triggerRequest = new TriggerRequest();
+                triggerRequest.RequestReference = 1;
+                triggerRequest.RequestParameters.Add(new Parameter { Name = "command", Value = "single-route" });
+                foreach(var order in orders)
+                {
+                    triggerRequest.Data.Addresses.Add(new Address { Lat = order.GeoX, Long = order.GeoY, Id = "" + order.Id });
+                    triggerRequest.Data.Orders.Add(new RequestOrder { TimeWindowTill = order.TimeWindowTill, TimeWindowFrom = order.TimeWindowFrom, FixedDurationInSec = order.FixedDurationInSec, AddressId = "" + order.Id, Type = order.OrderType, Id = Int32.Parse(order.OrderNumber) });
+                }
+                triggerRequest.Data.Addresses.Add(new Address { Lat = 44.0121f, Long = 23.1393f, Id = "depot" });
+                triggerRequest.Data.Depots.Add(new Depot { AddressId = "depot", Id = "depot1" });
+                triggerRequest.Data.Routes.Add(new Route { Id = "1" });
+
                 var json = JsonConvert.SerializeObject(triggerRequest);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 _logger.LogInformation("The serialized object is {0}", JsonConvert.SerializeObject(triggerRequest));
 
                 client.BaseAddress = new Uri("https://test.orteccloudservices.com");
                 var response = await client.PostAsync($"/api/v1/routing?key={_key}&profile={_routingProfile}&async=false", content);
-                //response.EnsureSuccessStatusCode();
 
                 stringResult = response.Content.ReadAsStringAsync().Result;
                 _logger.LogInformation(stringResult);
+
+                trip = JsonConvert.DeserializeObject<TriggerResponse>(stringResult);
+                _logger.LogInformation("Trip is: {0}", trip);
             }
             catch (HttpRequestException httpRequestException)
             {
                 _logger.LogInformation($"Error getting route from OrtecCloud: {httpRequestException.Message}");
             }
-            return stringResult;
+            return trip;
         }
         public class TriggerRequest
         {
@@ -105,8 +113,8 @@ namespace DriverApp.Services
         }
         public class Address
         {
-            public double Lat { get; set; }
-            public double Long { get; set; }
+            public float Lat { get; set; }
+            public float Long { get; set; }
             public string Id { get; set; }
         }
         public class Depot
@@ -125,7 +133,56 @@ namespace DriverApp.Services
         }
         public class Route
         {
+            public List<Stop> Stops { get; set; }
             public string Id { get; set; }
+            public string StartDateTime { get; set; }
+            public string FinishDateTime { get; set; }
+            public int DurationInSec { get; set; }
+            public int DrivingTimeInSec { get; set; }
+            public float Distance { get; set; }
+            public int WaitingTimeInSec { get; set; }
+            public int NofStops { get; set; }
+
+            public Route()
+            {
+                Stops = new List<Stop>();
+            }
+        }
+        public class Stop
+        {
+            public string AddressId { get; set; }
+            public int StopSequence { get; set; }
+            public string Type { get; set; }
+            public int DrivingTimeInSec { get; set; }
+            public float Distance { get; set; }
+            public int WaitingTimeInsec { get; set; }
+            public int DurationInSec { get; set; }
+            public string ArrivalDateTime { get; set; }
+            public string DepartureDateTime { get; set; }
+        }
+        public class TriggerResponse
+        {
+            public int RequestReference { get; set; }
+            public Tracking TrackingData { get; set; }
+            public Output OutputPlan { get; set; }
+        }
+        public class Tracking
+        {
+            public string ServerTrackingId { get; set; }
+        }
+        public class Output
+        {
+            public List<Route> Routes { get; set; }
+            public NotPlanned NotPlannedOrders { get; set; }
+
+            public Output()
+            {
+                Routes = new List<Route>();
+            }
+        }
+        public class NotPlanned
+        {
+            public int NofOrders { get; set; }
         }
     }
 }

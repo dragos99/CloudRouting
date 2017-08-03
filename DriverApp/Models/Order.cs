@@ -29,6 +29,5 @@ namespace DriverApp.Models
         public int StopDurationInSec { get; set; }
         public bool Complete { get; set; }
         public string Comment { get; set; }
-        public string addressId { get; set; }
     }
 }
