@@ -40,8 +40,8 @@
 		<div id="newOrderModal" class='modal fade' ng-show="vm.modal === 'newOrder'">
 			<div class="modal-body">
 				<div class="upload-area fade" ng-show="vm.uploadStep == 1">
-					<label for="upload-btn" class="btn"> Upload </label>
-					<input id="upload-btn" class="btn" type="file">
+					<input id="upload-btn" name="upload-btn" load-csv type="file">
+					<label for="upload-btn" class="btn" > Upload </label>
 					<p> Upload order in CSV format </p>
 				</div>
 
