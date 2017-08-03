@@ -1,14 +1,11 @@
 'use strict';
 
 (function() {
-    var fields = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-
     var app = angular.module('app');
     app.controller('OrdersCtrl', OrdersController);
 
-    function OrdersController($scope, $timeout, Api, orders) {
+    function OrdersController($scope, $timeout, Api, orders, $route) {
         var _this = this;
-        var reader = new FileReader();
         var uploadBtn = document.querySelector('#upload-btn');
         var orderTable = document.querySelector('#tbody');
 
@@ -16,6 +13,7 @@
         this.uploadStep = 1;
         this.order = {};
         this.orders = orders;
+        
 
         /**   Methods   **/
 
@@ -26,7 +24,7 @@
 
         this.closeOrderCreation = function() {
             this.modal = '';
-            uploadBtn.value = '';
+            uploadBtn.value = null;
 
             $timeout(function() {
                 _this.uploadStep = 1;
@@ -53,9 +51,28 @@
             });
         }
 
-        function loadCSV(evt) {
+        $scope.loadCSV = function(evt) {
+            var reader = new FileReader();
             var files = evt.target.files;
             var f = files[0];
+
+            reader.onload = function(file) {
+                var csv = file.target.result;
+                var rows = csv.split('\r\n');
+                var columns = rows[0].split(',');
+                var values = rows[1].split(',');
+                var html = '';
+
+                for (var i = 0; i < columns.length; ++i) {
+                    // construct table html
+                    html += '<tr><td>'+ columns[i] +'</td><td>'+ values[i] +'</td></tr>'
+
+                    // construct order object
+                    _this.order[columns[i]] = values[i];
+                }
+
+                orderTable.insertAdjacentHTML('beforeend', html);
+            }
 
             reader.readAsText(f);
             _this.uploadStep = 2;
@@ -66,31 +83,23 @@
 
         /**   Events   **/
 
-        uploadBtn.addEventListener('change', loadCSV);
-
-        reader.onload = function(file) {
-            var csv = file.target.result;
-            var rows = csv.split('\r\n');
-            var columns = rows[0].split(',');
-            var values = rows[1].split(',');
-
-            for (var i = 0; i < columns.length; ++i) {
-                var row = orderTable.insertRow();
-
-                // insert field
-                var cell = row.insertCell();
-                cell.innerHTML = columns[i];
-
-                // insert value
-                cell = row.insertCell();
-                cell.innerHTML = values[i];
-
-                // construct order object
-                _this.order[columns[i]] = values[i];
-            }
-        }
+        //uploadBtn.onchange = this.loadCSV;
     }
+
+    app.directive('loadCsv', function($timeout) {
+      return {
+        link: function(scope, elem, attrs) {
+          elem.on('change', function(e) {
+            $timeout(function() {
+              scope.loadCSV(e);
+            });
+          });
+        }
+      };
+    });
 })();
+
+
 
 function anim () {
     var el = jq("#orders-container");
