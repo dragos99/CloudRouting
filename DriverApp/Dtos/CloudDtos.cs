@@ -7,23 +7,23 @@ namespace DriverApp.Dtos.CloudDtos
 {
 	public class TriggerRequest
 	{
-		public int RequestReference { get; set; }
-		public List<RequestParameter> RequestParameters { get; set; }
-		public RequestData Data { get; set; }
+		public int RequestReference;
+		public List<RequestParameter> RequestParameters;
+		public RequestData Data;
 	}
 
 	public class RequestParameter
 	{
-		public string Name { get; set; }
-		public string Value { get; set; }
+		public string Name;
+		public string Value;
 	}
 
 	public class RequestData
 	{
-		public List<Address> Addresses { get; set; }
-		public List<Depot> Depots { get; set; }
-		public List<RequestOrder> Orders { get; set; }
-		public List<Route> Routes { get; set; }
+		public List<Address> Addresses;
+		public List<Depot> Depots;
+		public List<RequestOrder> Orders;
+		public List<Route> Routes;
 
 		public RequestData()
 		{
@@ -36,79 +36,79 @@ namespace DriverApp.Dtos.CloudDtos
 
 	public class Address
 	{
-		public float Lat { get; set; }
-		public float Long { get; set; }
-		public string Id { get; set; }
+		public float Lat;
+		public float Long;
+		public string Id;
 	}
 
 	public class Depot
 	{
-		public string AddressId { get; set; }
-		public string Id { get; set; }
+		public string AddressId;
+		public int Id;
 	}
 
 	public class RequestOrder
 	{
-		public string TimeWindowTill { get; set; }
-		public string TimeWindowFrom { get; set; }
-		public int FixedDurationInSec { get; set; }
-		public string AddressId { get; set; }
-		public string Type { get; set; }
-		public int Id { get; set; }
-	}
-
-	public class Route
-	{
-		public List<Stop> Stops { get; set; }
-		public string Id { get; set; }
-		public string StartDateTime { get; set; }
-		public string FinishDateTime { get; set; }
-		public int DurationInSec { get; set; }
-		public int DrivingTimeInSec { get; set; }
-		public float Distance { get; set; }
-		public int WaitingTimeInSec { get; set; }
-		public int NofStops { get; set; }
-
-		public Route()
-		{
-			Stops = new List<Stop>();
-		}
-	}
-
-	public class Stop
-	{
-		public string AddressId { get; set; }
-		public int StopSequence { get; set; }
-		public string Type { get; set; }
-		public int DrivingTimeInSec { get; set; }
-		public float Distance { get; set; }
-		public int WaitingTimeInsec { get; set; }
-		public int DurationInSec { get; set; }
-		public string ArrivalDateTime { get; set; }
-		public string DepartureDateTime { get; set; }
+		public string TimeWindowTill;
+		public string TimeWindowFrom;
+		public int FixedDurationInSec;
+		public string AddressId;
+		public string Type;
+		public int Id;
 	}
 
 	public class TriggerResponse
 	{
-		public int RequestReference { get; set; }
-		public Tracking TrackingData { get; set; }
-		public Output OutputPlan { get; set; }
-		public NotPlanned NotPlannedOrders { get; set; }
+		public int RequestReference;
+		public TrackingData TrackingData;
+		public OutputPlan OutputPlan;
+		public NotPlannedOrders NotPlannedOrders;
 	}
 
-	public class Tracking
+	public class TrackingData
 	{
-		public string ServerTrackingId { get; set; }
+		public string ServerTrackingId;
 	}
 
-	public class Output
+	public class OutputPlan
 	{
-		public List<Route> Routes { get; set; }
+		public List<Route> Routes;
 	}
 
-	public class NotPlanned
+	public class NotPlannedOrders
 	{
-		public int NofOrders { get; set; }
+		public int NOfOrders;
+		public List<NotPlannedOrder> Order;
+	}
+
+	public class NotPlannedOrder {
+		public int Id;
+	}
+
+	public class Route
+	{
+		public List<Stop> Stops;
+		public int Id;
+		public string StartDateTime;
+		public string FinishDateTime;
+		public int DurationInSec;
+		public int DrivingTimeInSec;
+		public float Distance;
+		public int WaitingTimeInSec;
+		public int NofStops;
+	}
+
+	public class Stop
+	{
+		public string AddressId;
+		public int StopSequence;
+		public string Type;
+		public int DrivingTimeInSec;
+		public float Distance;
+		public int WaitingTimeInsec;
+		public int DurationInSec;
+		public string ArrivalDateTime;
+		public string DepartureDateTime;
 	}
 }
 

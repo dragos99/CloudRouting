@@ -36,10 +36,6 @@ namespace DriverApp.Dtos
 	}
 
 
-
-
-
-
 	public class SendDriverDto
 	{
 		public string driverId;

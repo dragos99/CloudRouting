@@ -41,14 +41,14 @@ namespace DriverApp.Services
 					Data = new RequestData
 					{
 						Addresses = new List<Address> { new Address { Lat = 44.0121f, Long = 23.1393f, Id = "depot" } },
-						Depots = new List<Depot> { new Depot { AddressId = "depot", Id = "depot1" } },
-						Routes = new List<Route> { new Route { Id = "1" } }
+						Depots = new List<Depot> { new Depot { AddressId = "depot", Id = 1 } },
+						Routes = new List<Route> { new Route { Id = 1 } }
 					}
 				};
 
                 foreach (var order in orders)
                 {
-                    triggerRequest.Data.Addresses.Add(new Address { Lat = order.GeoX, Long = order.GeoY, Id = "" + order.Id });
+                    triggerRequest.Data.Addresses.Add(new Address { Lat = order.GeoX, Long = order.GeoY, Id = order.Id.ToString() });
                     triggerRequest.Data.Orders.Add(new RequestOrder {
 						TimeWindowTill = order.TimeWindowTill,
 						TimeWindowFrom = order.TimeWindowFrom,
