@@ -51,7 +51,7 @@ namespace DriverApp.Services
             {
                 var trip = new Trip {
 					AccountId = customerKey,
-					DriverId = Int32.Parse(driverId),
+					DriverId = driverId.ToString(),
 					AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
 					AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
 					StartTime = response.OutputPlan.Routes[0].StartDateTime,
@@ -63,11 +63,11 @@ namespace DriverApp.Services
                 _db.Trips.Add(trip);
 
                 IEnumerable<Order> orders = GetUnplannedOrders();
-                foreach(var order in orders)
+                var lastid = _db.Trips.Max(t => t.Id) + 1;
+                foreach (var order in orders)
 				{ 
-                    order.TripId = _db.Trips.Max(t => t.Id) + 1;
+                    order.TripId = lastid;
                 }
-
                 _db.SaveChanges();
             }
             catch(Exception e)
