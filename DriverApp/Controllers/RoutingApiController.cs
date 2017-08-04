@@ -35,15 +35,18 @@ namespace DriverApp.Controllers
         {
 			string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
 			string driverId = data.driverId;
-
-			if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
-
-			bool success = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(_dbRepo.GetUnplannedOrders()).Result, customerKey, driverId);
-            if(success)
+            IEnumerable<Order> orders = _dbRepo.GetUnplannedOrders();
+            if (orders.Any())
             {
-                return StatusCode(200);
-            }
+                if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
 
+                bool success = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId);
+                if (success)
+                {
+                    return StatusCode(200);
+                }
+                return StatusCode(400);
+            }
 			return StatusCode(400);
         }
     }

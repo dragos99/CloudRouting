@@ -93,7 +93,7 @@ namespace DriverApp.Dtos.CloudDtos
 		public string FinishDateTime;
 		public int DurationInSec;
 		public int DrivingTimeInSec;
-		public float Distance;
+		public Decimal Distance;
 		public int WaitingTimeInSec;
 		public int NofStops;
 	}

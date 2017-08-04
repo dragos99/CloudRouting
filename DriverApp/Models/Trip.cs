@@ -10,11 +10,11 @@ namespace DriverApp.Models
         public int Id { get; set; }
         public string AccountId { get; set; }
         public string DriverId { get; set; }
-        public string AvailableFromTime { get; set; }
-        public string AvailableTillTime { get; set; }
-        public string StartTime { get; set; }
-        public string FinishTime { get; set; }
-        public float TotalDistanceInKm { get; set; }
+        public DateTime AvailableFromTime { get; set; }
+        public DateTime AvailableTillTime { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime FinishTime { get; set; }
+        public Decimal TotalDistanceInKm { get; set; }
         public int TotalDurationInSec { get; set; }
     }
 }

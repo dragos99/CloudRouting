@@ -52,10 +52,10 @@ namespace DriverApp.Services
                 var trip = new Trip {
 					AccountId = customerKey,
 					DriverId = driverId.ToString(),
-					AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
-					AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
-					StartTime = response.OutputPlan.Routes[0].StartDateTime,
-					FinishTime = response.OutputPlan.Routes[0].FinishDateTime,
+					AvailableFromTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
+					AvailableTillTime = DateTime.Parse(response.OutputPlan.Routes[0].FinishDateTime),
+					StartTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
+					FinishTime = DateTime.Parse(response.OutputPlan.Routes[0].FinishDateTime),
 					TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
 					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
 				};
@@ -63,7 +63,7 @@ namespace DriverApp.Services
                 _db.Trips.Add(trip);
 
                 IEnumerable<Order> orders = GetUnplannedOrders();
-                var lastid = _db.Trips.Max(t => t.Id) + 1;
+                var lastid = _db.Trips.Last().Id + 1;
                 foreach (var order in orders)
 				{ 
                     order.TripId = lastid;
