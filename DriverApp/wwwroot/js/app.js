@@ -1,5 +1,7 @@
 ﻿(function () {
 
+	jq('[data-toggle="tooltip"]').tooltip();   
+
 	var app = angular.module("app", ["ngRoute", "ngAnimate"]);
 
 	app.config(function ($httpProvider, $routeProvider, $locationProvider) {
