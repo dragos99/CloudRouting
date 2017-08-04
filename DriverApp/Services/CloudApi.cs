@@ -56,7 +56,7 @@ namespace DriverApp.Services
 						FixedDurationInSec = order.FixedDurationInSec,
 						AddressId = order.Id.ToString(),
 						Type = order.OrderType,
-						Id = Int32.Parse(order.OrderNumber)
+						Id = order.Id
 					});
 				}
 

@@ -8,7 +8,7 @@ namespace DriverApp.Models
     public class Trip
     {
         public int Id { get; set; }
-        public int AccountId { get; set; }
+        public string AccountId { get; set; }
         public int DriverId { get; set; }
         public string AvailableFromTime { get; set; }
         public string AvailableTillTime { get; set; }

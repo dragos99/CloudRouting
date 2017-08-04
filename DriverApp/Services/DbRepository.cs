@@ -2,6 +2,7 @@
 using DriverApp.Dtos.CloudDtos;
 using DriverApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace DriverApp.Services
     public class DbRepository
     {
         private ApiContext _db;
+		private ILogger _logger;
 
-        public DbRepository(ApiContext db)
+        public DbRepository(ApiContext db, ILoggerFactory fact)
         {
             _db = db;
+			_logger = fact.CreateLogger("DbRepoLogger");
         }
 
         public Manager GetManager(string key)
@@ -47,7 +50,7 @@ namespace DriverApp.Services
             try
             {
                 var trip = new Trip {
-					AccountId = Int32.Parse(customerKey),
+					AccountId = customerKey,
 					DriverId = Int32.Parse(driverId),
 					AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
 					AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
@@ -69,7 +72,7 @@ namespace DriverApp.Services
             }
             catch(Exception e)
             {
-				Console.WriteLine("Insert Trip exception " + e.Message);
+				_logger.LogInformation("Insert Trip exception " + e.Message);
                 return false;
             }
 
