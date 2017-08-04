@@ -1,18 +1,18 @@
 <div style="height:100%;" >
 	<div id="header">
 		<div id="page-title">Orders</div>
-		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Create new </div>
+		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Add order </div>
 	</div>
 	<div id="container">
 		<div id="orders-container">
 			<div id="orders">
-				<div class="order-container fadein" ng-repeat="order in vm.orders">
-					<div class="order-box">
-						<div class="order-header clearfix">
+				<div class="card-container fadein" ng-repeat="order in vm.orders">
+					<div class="card">
+						<div class="card-header clearfix">
 							<div class="half">Order #{{order.id}}</div>
 							<div class="half"> {{order.orderType}} </div>
 						</div>
-						<div class="order-body">
+						<div class="card-body">
 							<table>
 								<tr>
 									<th> City name </th>
@@ -53,9 +53,7 @@
 								<th class="value"> Value </th>
 							</tr>
 						</thead>
-						<tbody id="tbody">
-
-						</tbody>
+						<tbody id="order-body"></tbody>
 					</table>
 				</div>
 

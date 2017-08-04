@@ -16,11 +16,6 @@ namespace DriverApp.Dtos
         public string driverId;
     }
 
-    public class SendDriverDto
-    {
-        public string driverId;
-    }
-
 	public class ReceiveOrderDto
 	{
 		public string ordeType;
@@ -33,6 +28,21 @@ namespace DriverApp.Dtos
 		public int fixedDurationInSec;
 		public string timeWindowFrom;
 		public string timeWindowTill;
+	}
+
+	public class ReceiveTriggerRequestDto
+	{
+		public string driverId;
+	}
+
+
+
+
+
+
+	public class SendDriverDto
+	{
+		public string driverId;
 	}
 
 }

@@ -39,7 +39,7 @@ namespace DriverApp.Controllers
         [HttpGet("drivers")]
         public IEnumerable<SendDriverDto> GetDrivers()
         {
-            var customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
             var drivers = _dbRepo.GetDrivers(customerKey);
 
             return Mapper.Map<IEnumerable<SendDriverDto>>(drivers);

@@ -39,7 +39,7 @@
     right: 45px;
 }
 
-#orders-container {
+#orders-container, #trip-container {
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -47,7 +47,7 @@
     transition: height 0.4s;
 }
 
-#orders {
+#orders, #trips {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -55,7 +55,7 @@
     padding: 10px;
 }
 
-.order-container {
+.card-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,7 +64,7 @@
     margin-bottom: 20px;
 }
 
-.order-box {
+.card {
     width: 100%;
     height: 100%;
     background: #fff;
@@ -72,11 +72,11 @@
     transition: all 0.2s;
 }
 
-.order-box:hover {
+.card:hover {
     transform: scale(1.1);
 }
 
-.order-header {
+.card-header {
     padding: 10px;
     text-align: center;
     background: #29b6ec;
@@ -85,7 +85,7 @@
     font-weight: 300;
 }
 
-.order-body {
+.card-body {
     padding: 10px;
 }
 
@@ -94,12 +94,7 @@
     float: left;
 }
 
-.order-box table {
-    width: 100%;
-    margin-bottom: 0;
-}
-
-.order-box th, .order-box td {
+.card th, .card td {
     display: inline-block;
     text-align: center;
     width: 50%;
@@ -109,16 +104,16 @@
     padding: 8px;
 }
 
-.order-box tr {
+.card tr {
     border: 1px solid #ddd;
 }
 
-.order-box th {
+.card th {
     background: #f2f2f2;
     font-weight: 500;
 }
 
-.order-box td:first-child, .order-box th:first-child {
+.card td:first-child, .card th:first-child {
     border-right: 1px solid #ddd;
 }
 

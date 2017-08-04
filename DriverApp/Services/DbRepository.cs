@@ -1,4 +1,5 @@
 ﻿using DriverApp.Dtos;
+using DriverApp.Dtos.CloudDtos;
 using DriverApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -30,9 +31,9 @@ namespace DriverApp.Services
             return manager.Drivers;
         }
 
-        public IEnumerable<Order> GetAvailableOrders()
+        public IEnumerable<Order> GetUnplannedOrders()
         {
-            IEnumerable<Order> orders = _db.Orders.Where(m => m.Complete == false && m.TripId == 0);
+            IEnumerable<Order> orders = _db.Orders.Where(m => m.TripId == 0);
             return orders;
         }
 
@@ -40,35 +41,38 @@ namespace DriverApp.Services
         {
             return _db.Drivers.Include(d => d.Manager).Where(d => d.DriverId == id && d.Manager.CustomerKey == key).FirstOrDefault();
         }
-        public bool IsValidLogin(ReceiveDriverLoginDto data)
-        {
-            string customerKey = data.customerKey;
-            string driverId = data.driverId;
-            if (string.IsNullOrEmpty(customerKey) || string.IsNullOrEmpty(driverId)) return false;
 
-            Driver acc = GetDriver(customerKey, driverId);
-            if (acc == null) return false;
-            return true;
-        }
-
-        public bool InsertTrip(TriggerResponse response, string driverId)
+        public bool InsertTrip(TriggerResponse response, string customerKey, string driverId)
         {
             try
             {
-                var trip = new Trip { AccountId = Int32.Parse(driverId), DriverId = Int32.Parse(driverId), AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime, AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime, StartTime = response.OutputPlan.Routes[0].StartDateTime, FinishTime = response.OutputPlan.Routes[0].FinishDateTime, TotalDistanceInKm = response.OutputPlan.Routes[0].Distance, TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec };
+                var trip = new Trip {
+					AccountId = Int32.Parse(customerKey),
+					DriverId = Int32.Parse(driverId),
+					AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
+					AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
+					StartTime = response.OutputPlan.Routes[0].StartDateTime,
+					FinishTime = response.OutputPlan.Routes[0].FinishDateTime,
+					TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
+					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
+				};
+
                 _db.Trips.Add(trip);
-                IEnumerable<Order> orders = GetAvailableOrders();
+
+                IEnumerable<Order> orders = GetUnplannedOrders();
                 foreach(var order in orders)
-                {
-                    order.Complete = true;
-                    order.TripId = _db.Trips.Max(x => x.Id);
+				{ 
+                    order.TripId = _db.Trips.Max(t => t.Id) + 1;
                 }
+
                 _db.SaveChanges();
             }
-            catch(Exception Ex)
+            catch(Exception e)
             {
+				Console.WriteLine("Insert Trip exception " + e.Message);
                 return false;
             }
+
             return true;
         }
     }

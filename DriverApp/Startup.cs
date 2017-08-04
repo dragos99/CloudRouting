@@ -42,7 +42,12 @@ namespace DriverApp
             {
                 options.AddPolicy("ManagersOnly", policy => policy.RequireClaim("Role", "Manager"));
                 options.AddPolicy("DriversOnly", policy => policy.RequireClaim("Role", "Driver"));
-            });
+				options.AddPolicy("AllUsers", policy => policy.RequireAssertion(context =>
+					context.User.HasClaim(c =>
+						c.Type == "Role" && (c.Value == "Manager" || c.Value == "Driver"))
+					)
+				);
+			});
 
             services.AddAutoMapper();
         }

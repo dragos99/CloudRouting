@@ -6,14 +6,14 @@
 
     function OrdersController($scope, $timeout, Api, orders, $route) {
         var _this = this;
-        var uploadBtn = document.querySelector('#upload-btn');
-        var orderTable = document.querySelector('#tbody');
+        var uploadBtn = document.getElementById('upload-btn');
+        _this.orderBody = document.getElementById('order-body');
 
         this.modal = '';
         this.uploadStep = 1;
         this.order = {};
         this.orders = orders;
-        
+
 
         /**   Methods   **/
 
@@ -28,7 +28,7 @@
 
             $timeout(function() {
                 _this.uploadStep = 1;
-                orderTable.innerHTML = '';
+                _this.orderBody.innerHTML = '';
             }, 300);
         }
 
@@ -55,48 +55,45 @@
             var reader = new FileReader();
             var files = evt.target.files;
             var f = files[0];
+            var html = '';
 
             reader.onload = function(file) {
                 var csv = file.target.result;
                 var rows = csv.split('\r\n');
                 var columns = rows[0].split(',');
                 var values = rows[1].split(',');
-                var html = '';
 
                 for (var i = 0; i < columns.length; ++i) {
-                    // construct table html
                     html += '<tr><td>'+ columns[i] +'</td><td>'+ values[i] +'</td></tr>'
-
-                    // construct order object
                     _this.order[columns[i]] = values[i];
                 }
 
-                orderTable.insertAdjacentHTML('beforeend', html);
+                _this.uploadStep = 2;
+                $scope.$apply();
+                _this.orderTable = document.getElementById('order-body');
+                _this.orderTable.insertAdjacentHTML('beforeend', html);
             }
 
             reader.readAsText(f);
-            _this.uploadStep = 2;
-            $scope.$apply();
         }
 
-
-
-        /**   Events   **/
-
-        //uploadBtn.onchange = this.loadCSV;
     }
 
+
+
+
     app.directive('loadCsv', function($timeout) {
-      return {
-        link: function(scope, elem, attrs) {
-          elem.on('change', function(e) {
-            $timeout(function() {
-              scope.loadCSV(e);
-            });
-          });
-        }
-      };
+        return {
+            link: function(scope, elem, attrs) {
+                elem.on('change', function(e) {
+                    $timeout(function() {
+                        scope.loadCSV(e);
+                    });
+                });
+            }
+        };
     });
+
 })();
 
 
