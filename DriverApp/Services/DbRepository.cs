@@ -47,34 +47,22 @@ namespace DriverApp.Services
 
         public bool InsertTrip(TriggerResponse response, string customerKey, string driverId)
         {
-            try
-            {
-                var trip = new Trip {
-					AccountId = customerKey,
-					DriverId = Int32.Parse(driverId),
-					AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
-					AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
-					StartTime = response.OutputPlan.Routes[0].StartDateTime,
-					FinishTime = response.OutputPlan.Routes[0].FinishDateTime,
-					TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
-					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
-				};
+			Trip trip = new Trip() {
+				AccountId = customerKey,
+				DriverId = Int32.Parse(driverId),
+				AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
+				AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
+				StartTime = response.OutputPlan.Routes[0].StartDateTime,
+				FinishTime = response.OutputPlan.Routes[0].FinishDateTime,
+				TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
+				TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
+			};
 
-                _db.Trips.Add(trip);
+            _db.Trips.Add(trip);
 
-                IEnumerable<Order> orders = GetUnplannedOrders();
-                foreach(var order in orders)
-				{ 
-                    order.TripId = _db.Trips.Max(t => t.Id) + 1;
-                }
+         
 
-                _db.SaveChanges();
-            }
-            catch(Exception e)
-            {
-				_logger.LogInformation("Insert Trip exception " + e.Message);
-                return false;
-            }
+            _db.SaveChanges();
 
             return true;
         }
