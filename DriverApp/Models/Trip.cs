@@ -9,7 +9,7 @@ namespace DriverApp.Models
     {
         public int Id { get; set; }
         public string AccountId { get; set; }
-        public int DriverId { get; set; }
+        public string DriverId { get; set; }
         public string AvailableFromTime { get; set; }
         public string AvailableTillTime { get; set; }
         public string StartTime { get; set; }
