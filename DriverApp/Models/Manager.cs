@@ -11,7 +11,6 @@ namespace DriverApp.Models
     {
         [Key]
         [MaxLength(4)]
-        public int DriverId { get; set; }
         public string CustomerKey { get; set; }
 
         public ICollection<Driver> Drivers { get; set; }

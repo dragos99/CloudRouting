@@ -91,17 +91,20 @@ namespace DriverApp
             var driver = new Driver
             {
                 Manager = user,
-                DriverId = "1"
-            };
+                DriverId = "1",
+				CustomerKey = "test"
+			};
 			var driver2 = new Driver
 			{
 				Manager = user,
-				DriverId = "2"
+				DriverId = "2",
+				CustomerKey = "test"
 			};
 			var driver3 = new Driver
 			{
 				Manager = user,
-				DriverId = "3"
+				DriverId = "3",
+				CustomerKey = "test"
 			};
 
 			user.Drivers.Add(driver);

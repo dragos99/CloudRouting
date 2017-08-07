@@ -30,7 +30,7 @@ namespace DriverApp.Services
 
         public IEnumerable<Driver> GetDrivers(string key)
         {
-            return _db.Drivers.Include(d => d.Manager).Where(d => d.Manager.CustomerKey == key).ToList();
+            return _db.Drivers.Where(d => d.CustomerKey == key).ToList();
         }
 
         public IEnumerable<Order> GetUnplannedOrders()
@@ -41,7 +41,7 @@ namespace DriverApp.Services
 
         public Driver GetDriver(string key, string id)
         {
-            return _db.Drivers.Include(d => d.Manager).Where(d => d.DriverId == id && d.Manager.CustomerKey == key).FirstOrDefault();
+            return _db.Drivers.Where(d => d.DriverId == id && d.CustomerKey == key).FirstOrDefault();
         }
 
         public int InsertTrip(TriggerResponse response, string customerKey, string driverId)
