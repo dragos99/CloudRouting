@@ -21,7 +21,7 @@ namespace DriverApp.Controllers
         {
             _cloudApi = cloudApi;
             _dbRepo = dbRepo;
-            _logger = loggerFactory.CreateLogger("LoginLogger");
+            _logger = loggerFactory.CreateLogger("RoutingApiLogger");
         }
 
         [HttpGet("orders")]
@@ -35,19 +35,17 @@ namespace DriverApp.Controllers
         {
 			string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
 			string driverId = data.driverId;
-            IEnumerable<Order> orders = _dbRepo.GetUnplannedOrders();
+			if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
+
+			IEnumerable<Order> orders = _dbRepo.GetUnplannedOrders();
             if (orders.Any())
             {
-                if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
-
                 bool success = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId);
-                if (success)
-                {
-                    return StatusCode(200);
-                }
+                if (success) return StatusCode(200);
                 return StatusCode(400);
             }
-			return StatusCode(400);
+
+			return StatusCode(404);
         }
     }
 }

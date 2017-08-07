@@ -47,23 +47,11 @@ namespace DriverApp.Services
 
         public bool InsertTrip(TriggerResponse response, string customerKey, string driverId)
         {
-
-			/*Trip trip = new Trip() {
-				AccountId = customerKey,
-				DriverId = driverId,
-				AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
-				AvailableTillTime = response.OutputPlan.Routes[0].FinishDateTime,
-				StartTime = response.OutputPlan.Routes[0].StartDateTime,
-				FinishTime = response.OutputPlan.Routes[0].FinishDateTime,
-				TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
-				TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
-			};*/
-
             try
             {
                 var trip = new Trip {
 					AccountId = customerKey,
-					DriverId = driverId.ToString(),
+					DriverId = driverId,
 					AvailableFromTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
 					AvailableTillTime = DateTime.Parse(response.OutputPlan.Routes[0].FinishDateTime),
 					StartTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
@@ -71,7 +59,6 @@ namespace DriverApp.Services
 					TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
 					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
 				};
-
 
 				 _db.Trips.Add(trip);
 
