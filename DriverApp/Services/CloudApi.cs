@@ -58,7 +58,7 @@ namespace DriverApp.Services
 						Type = order.OrderType,
 						Id = order.Id
 					});
-                    //_logger.LogInformation($"TimeWindowFrom: {order.TimeWindowFrom}, TimeWindowTill: {order.TimeWindowTill}");
+
                 }
 
 				StringContent content = new StringContent(JsonConvert.SerializeObject(triggerRequest), Encoding.UTF8, "application/json");

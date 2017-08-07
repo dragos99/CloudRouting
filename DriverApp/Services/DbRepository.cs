@@ -66,8 +66,7 @@ namespace DriverApp.Services
 
 				List<Order> orders = GetUnplannedOrders().ToList();
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
-				var last = _db.Trips.Last();
-				int lastid = (last == null) ? 1 : last.Id + 1;
+				int lastid = _db.Trips.Last().Id + 1;
 
 				foreach (var stop in stops)
 				{
@@ -80,7 +79,6 @@ namespace DriverApp.Services
 					order.Distance = stop.Distance;
 				}
 
-				_db.Trips.Add(trip);
 				_db.SaveChanges();
             }
             catch(Exception e)
