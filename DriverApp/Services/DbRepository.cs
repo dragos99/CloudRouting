@@ -60,12 +60,17 @@ namespace DriverApp.Services
 					NOfStops = response.OutputPlan.Routes[0].NofStops
 				};
 
+				_db.Trips.Add(trip);
+
 				if (trip.NOfStops == 0) return 0;
 
 				List<Order> orders = GetUnplannedOrders().ToList();
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
-				int lastid = _db.Trips.Last().Id + 1;
+				_logger.LogInformation("Stops: " + stops.Count.ToString());
+				var last = _db.Trips.Last();
+				int lastid = (last == null) ? 1 : last.Id + 1;
 
+				
 				foreach (var stop in stops)
 				{
 					var order = orders.Find(o => o.Id.ToString() == stop.AddressId);
@@ -75,9 +80,9 @@ namespace DriverApp.Services
 					order.ArrivalDateTime = stop.ArrivalDateTime;
 					order.DepartureDateTime = stop.DepartureDateTime;
 					order.Distance = stop.Distance;
+					_logger.LogInformation("key");
 				}
-
-				_db.Trips.Add(trip);
+				
 				_db.SaveChanges();
             }
             catch(Exception e)
