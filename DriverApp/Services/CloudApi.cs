@@ -48,7 +48,7 @@ namespace DriverApp.Services
 
 				foreach (var order in orders)
 				{
-					triggerRequest.Data.Addresses.Add(new Address { Lat = order.GeoX, Long = order.GeoY, Id = order.Id.ToString() });
+					triggerRequest.Data.Addresses.Add(new Address { Lat = order.GivenX, Long = order.GivenY, Id = order.Id.ToString() });
 					triggerRequest.Data.Orders.Add(new RequestOrder
 					{
 						TimeWindowTill = order.TimeWindowTill,
