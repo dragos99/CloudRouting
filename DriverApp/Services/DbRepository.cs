@@ -47,8 +47,8 @@ namespace DriverApp.Services
 
         public bool InsertTrip(TriggerResponse response, string customerKey, string driverId)
         {
-<<<<<<< HEAD
-			Trip trip = new Trip() {
+
+			/*Trip trip = new Trip() {
 				AccountId = customerKey,
 				DriverId = driverId,
 				AvailableFromTime = response.OutputPlan.Routes[0].StartDateTime,
@@ -57,8 +57,8 @@ namespace DriverApp.Services
 				FinishTime = response.OutputPlan.Routes[0].FinishDateTime,
 				TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
 				TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
-			};
-=======
+			};*/
+
             try
             {
                 var trip = new Trip {
@@ -71,33 +71,23 @@ namespace DriverApp.Services
 					TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
 					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
 				};
->>>>>>> 870882a06d9be8bdf1b5b3bae8ab87d48c7d9eda
 
-            _db.Trips.Add(trip);
 
-<<<<<<< HEAD
+				 _db.Trips.Add(trip);
 
-            IEnumerable<Order> orders = GetUnplannedOrders();
-            var lastid = _db.Trips.Max(t => t.Id) + 1;
-            foreach (var order in orders)
-			{ 
-                order.TripId = lastid;
-=======
-                IEnumerable<Order> orders = GetUnplannedOrders();
-                var lastid = _db.Trips.Last().Id + 1;
-                foreach (var order in orders)
+				IEnumerable<Order> orders = GetUnplannedOrders();
+				var lastid = _db.Trips.Last().Id + 1;
+				foreach (var order in orders)
 				{ 
-                    order.TripId = lastid;
-                }
-                _db.SaveChanges();
+					order.TripId = lastid;
+				}
+				_db.SaveChanges();
             }
             catch(Exception e)
             {
 				_logger.LogInformation("Insert Trip exception " + e.Message);
                 return false;
->>>>>>> 870882a06d9be8bdf1b5b3bae8ab87d48c7d9eda
             }
-            _db.SaveChanges();
 
 
             return true;
