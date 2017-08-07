@@ -79,6 +79,7 @@
 			<div id="generate-trip" ng-click="$event.stopPropagation()">
 				<h3> Assign trip to a driver </h3>
 				<select class="form-control" ng-model="vm.tripDriver" ng-change="vm.generateTrip()">
+					<option value="0" selected>Select driver</option>
 					<option ng-repeat="driver in vm.drivers" value="{{driver.driverId}}">Driver #{{driver.driverId}}</option>
 				</select>
 			</div>

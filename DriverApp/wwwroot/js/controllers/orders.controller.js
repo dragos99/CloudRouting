@@ -14,9 +14,8 @@
         this.order = {};
         this.orders = orders;
         this.drivers = drivers;
-        this.tripDriver = 1;
+        this.tripDriver = '0';
 
-        console.log(this.drivers);
 
         /**   Methods   **/
 
@@ -82,7 +81,10 @@
 
 
         this.generateTrip = function() {
-            console.log(this.tripDriver);
+            Api.triggerRouting(this.tripDriver).then(function(res) {
+                console.log(res);
+                _this.modal = '';
+            });
         }
 
     }

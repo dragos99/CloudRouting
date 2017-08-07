@@ -28,5 +28,9 @@
 			});
 		}
 
+		this.triggerRouting = function(driverId) {
+			return $http.post('/api/routing/trigger', {driverId});
+		}
+
 	});
 })();

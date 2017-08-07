@@ -80,7 +80,7 @@ namespace DriverApp
 
         private void AddTestData(ApiContext context)
         {
-            
+            if (context.Managers.Any()) return;
 
             var user = new Manager
             {
