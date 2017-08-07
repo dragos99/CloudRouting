@@ -1,6 +1,6 @@
 ﻿(function () {
 
-	jq('[data-toggle="tooltip"]').tooltip();   
+	jq('[data-toggle="tooltip"]').tooltip();
 
 	var app = angular.module("app", ["ngRoute", "ngAnimate"]);
 
@@ -25,6 +25,9 @@
 				resolve: {
 					orders: function(Api) {
 						return Api.getOrders();
+					},
+					drivers: function(Api) {
+						return Api.getDrivers();
 					}
 				}
 			})

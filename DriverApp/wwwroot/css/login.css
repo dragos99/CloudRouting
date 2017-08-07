@@ -28,33 +28,6 @@
 	font-size: 14px;
 }
 
-#login-panel  .input-group {
-	margin-top: 25px;
-	display: flex;
-	justify-content: center;
-	flex-wrap: nowrap;
-}
-
-#login-panel .text-field {
-	outline: none;
-	background: #f2f2f2;
-	border: 0;
-	padding: 15px;
-	color: #333;
-	font-family: "Roboto", sans-serif;
-	width: 100%;
-	font-size: 16px;
-}
-
-#login-panel .btn {
-	padding: 15px;
-	color: #fff;
-	background: rgb(35, 204, 239);
-	transition: all 0.15s;
-	cursor: pointer;
-	border-radius: 0;
-}
-
 #login-panel .btn:hover {
 	background: rgb(64, 145, 255);
 }

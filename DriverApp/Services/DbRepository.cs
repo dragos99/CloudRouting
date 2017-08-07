@@ -30,8 +30,7 @@ namespace DriverApp.Services
 
         public IEnumerable<Driver> GetDrivers(string key)
         {
-            Manager manager = _db.Managers.Where(m => m.CustomerKey == key).Include(m => m.Drivers).FirstOrDefault();
-            return manager.Drivers;
+            return _db.Drivers.Include(d => d.Manager).Where(d => d.Manager.CustomerKey == key).ToList();
         }
 
         public IEnumerable<Order> GetUnplannedOrders()
@@ -45,7 +44,7 @@ namespace DriverApp.Services
             return _db.Drivers.Include(d => d.Manager).Where(d => d.DriverId == id && d.Manager.CustomerKey == key).FirstOrDefault();
         }
 
-        public bool InsertTrip(TriggerResponse response, string customerKey, string driverId)
+        public int InsertTrip(TriggerResponse response, string customerKey, string driverId)
         {
             try
             {
@@ -60,6 +59,8 @@ namespace DriverApp.Services
 					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec,
 					NOfStops = response.OutputPlan.Routes[0].NofStops
 				};
+
+				if (trip.NOfStops == 0) return 0;
 
 				List<Order> orders = GetUnplannedOrders().ToList();
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
@@ -81,11 +82,11 @@ namespace DriverApp.Services
             catch(Exception e)
             {
 				_logger.LogInformation("Insert Trip exception " + e.Message);
-                return false;
+                return 0;
             }
 
 
-            return true;
+            return response.OutputPlan.Routes[0].Stops.Count;
         }
     }
 }

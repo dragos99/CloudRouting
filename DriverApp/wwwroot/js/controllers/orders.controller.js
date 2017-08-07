@@ -4,7 +4,7 @@
     var app = angular.module('app');
     app.controller('OrdersCtrl', OrdersController);
 
-    function OrdersController($scope, $timeout, Api, orders, $route) {
+    function OrdersController($scope, $timeout, Api, orders, drivers) {
         var _this = this;
         var uploadBtn = document.getElementById('upload-btn');
         _this.orderBody = document.getElementById('order-body');
@@ -13,7 +13,10 @@
         this.uploadStep = 1;
         this.order = {};
         this.orders = orders;
+        this.drivers = drivers;
+        this.tripDriver = 1;
 
+        console.log(this.drivers);
 
         /**   Methods   **/
 
@@ -75,6 +78,11 @@
             }
 
             reader.readAsText(f);
+        }
+
+
+        this.generateTrip = function() {
+            console.log(this.tripDriver);
         }
 
     }

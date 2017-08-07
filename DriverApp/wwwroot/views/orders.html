@@ -5,9 +5,6 @@
 	</div>
 
 	<div id="container">
-		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Generate trip">
-			<img src="img/road.svg" />
-		</div>
 		<div id="orders-container">
 			<div id="orders">
 				<div class="card-container fadein" ng-repeat="order in vm.orders">
@@ -71,5 +68,21 @@
 				<div class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </div>
 			</div>
 		</div>
+
+
+
+		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Generate trip" ng-click="vm.modal = 'generateTrip'">
+			<img src="img/road.svg" />
+		</div>
+
+		<div id="generate-trip-container" class="fade" ng-show="vm.modal == 'generateTrip'" ng-click="vm.modal=''">
+			<div id="generate-trip" ng-click="$event.stopPropagation()">
+				<h3> Assign trip to a driver </h3>
+				<select class="form-control" ng-model="vm.tripDriver" ng-change="vm.generateTrip()">
+					<option ng-repeat="driver in vm.drivers" value="{{driver.driverId}}">Driver #{{driver.driverId}}</option>
+				</select>
+			</div>
+		</div>
+
 	</div>
 </div>

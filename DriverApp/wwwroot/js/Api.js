@@ -22,5 +22,11 @@
 			});
 		}
 
+		this.getDrivers = function() {
+			return $http.get('/api/manager/drivers').then(function(res) {
+				return res.data;
+			});
+		}
+
 	});
 })();

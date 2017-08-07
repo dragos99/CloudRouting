@@ -211,6 +211,31 @@ h1, h2, h3, h4 {
     color: #29b6ec;
 }
 
+.input-group {
+	margin-top: 25px;
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+}
+.text-field {
+	outline: none;
+	background: #f2f2f2;
+	border: 0;
+	padding: 15px;
+	color: #333;
+	font-family: "Roboto", sans-serif;
+	width: 100%;
+	font-size: 16px;
+}
+.input-group .btn {
+	padding: 15px;
+	color: #fff;
+	background: rgb(35, 204, 239);
+	transition: all 0.15s;
+	cursor: pointer;
+	border-radius: 0;
+}
+
 #container {
     position: relative;
     height: 80%;

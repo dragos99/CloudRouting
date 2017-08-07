@@ -32,7 +32,7 @@ namespace DriverApp
         {
             services.AddMvc();
 
-            var connection = @"Server=tcp:cloudroutingort1dbserver.database.windows.net,1433;Initial Catalog=CLOUDROUTINGORT1_db;Persist Security Info=False;User ID=crort_user;Password=Ortec1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var connection = @"Server=tcp:orteccloudroutingdbserver.database.windows.net,1433;Initial Catalog=cloudrouting_db;Persist Security Info=False;User ID=cloudrouting;Password=Ortec1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<DbRepository>();
@@ -53,7 +53,7 @@ namespace DriverApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CloudApi cloudApi)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApiContext ctx)
         {
 
             loggerFactory.AddDebug();
@@ -74,11 +74,13 @@ namespace DriverApp
 
 
             app.UseStaticFiles();
-        }
+
+			AddTestData(ctx);
+		}
 
         private void AddTestData(ApiContext context)
         {
-            if (context.Managers.Any()) return;
+            
 
             var user = new Manager
             {
@@ -91,13 +93,27 @@ namespace DriverApp
                 Manager = user,
                 DriverId = "1"
             };
+			var driver2 = new Driver
+			{
+				Manager = user,
+				DriverId = "2"
+			};
+			var driver3 = new Driver
+			{
+				Manager = user,
+				DriverId = "3"
+			};
 
-            user.Drivers.Add(driver);
-            
-            context.Managers.Add(user);
+			user.Drivers.Add(driver);
+			user.Drivers.Add(driver2);
+			user.Drivers.Add(driver3);
+
+			context.Managers.Add(user);
             context.Drivers.Add(driver);
+			context.Drivers.Add(driver2);
+			context.Drivers.Add(driver3);
 
-            context.SaveChanges();
+			context.SaveChanges();
         }
     }
 }

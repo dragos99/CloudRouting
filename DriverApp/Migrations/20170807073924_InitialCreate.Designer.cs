@@ -8,8 +8,8 @@ using DriverApp.Models;
 namespace DriverApp.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20170731215605_addTripsTable")]
-    partial class addTripsTable
+    [Migration("20170807073924_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,8 @@ namespace DriverApp.Migrations
 
                     b.Property<int>("AccountId");
 
+                    b.Property<string>("ArrivalDateTime");
+
                     b.Property<string>("CityName");
 
                     b.Property<string>("Comment");
@@ -60,6 +62,10 @@ namespace DriverApp.Migrations
                     b.Property<bool>("Complete");
 
                     b.Property<string>("CountryCode");
+
+                    b.Property<string>("DepartureDateTime");
+
+                    b.Property<float>("Distance");
 
                     b.Property<int>("DriverId");
 
@@ -81,6 +87,8 @@ namespace DriverApp.Migrations
 
                     b.Property<string>("StopFinishTime");
 
+                    b.Property<int>("StopSequence");
+
                     b.Property<string>("StopStartTime");
 
                     b.Property<string>("StreetName");
@@ -89,7 +97,7 @@ namespace DriverApp.Migrations
 
                     b.Property<string>("TimeWindowFrom");
 
-                    b.Property<string>("TimeWindowTo");
+                    b.Property<string>("TimeWindowTill");
 
                     b.Property<int>("TripId");
 
@@ -103,19 +111,21 @@ namespace DriverApp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AccountId");
+                    b.Property<string>("AccountId");
 
-                    b.Property<string>("AvailableFromTime");
+                    b.Property<DateTime>("AvailableFromTime");
 
-                    b.Property<string>("AvailableTillTime");
+                    b.Property<DateTime>("AvailableTillTime");
 
-                    b.Property<int>("DriverId");
+                    b.Property<string>("DriverId");
 
-                    b.Property<string>("FinishTime");
+                    b.Property<DateTime>("FinishTime");
 
-                    b.Property<string>("StartTime");
+                    b.Property<int>("NOfStops");
 
-                    b.Property<int>("TotalDistanceInKm");
+                    b.Property<DateTime>("StartTime");
+
+                    b.Property<float>("TotalDistanceInKm");
 
                     b.Property<int>("TotalDurationInSec");
 

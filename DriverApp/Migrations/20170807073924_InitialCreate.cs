@@ -29,10 +29,13 @@ namespace DriverApp.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccountId = table.Column<int>(nullable: false),
+                    ArrivalDateTime = table.Column<string>(nullable: true),
                     CityName = table.Column<string>(nullable: true),
                     Comment = table.Column<string>(nullable: true),
                     Complete = table.Column<bool>(nullable: false),
                     CountryCode = table.Column<string>(nullable: true),
+                    DepartureDateTime = table.Column<string>(nullable: true),
+                    Distance = table.Column<float>(nullable: false),
                     DriverId = table.Column<int>(nullable: false),
                     FixedDurationInSec = table.Column<int>(nullable: false),
                     GeoX = table.Column<float>(nullable: false),
@@ -43,16 +46,38 @@ namespace DriverApp.Migrations
                     OrderType = table.Column<string>(nullable: true),
                     StopDurationInSec = table.Column<int>(nullable: false),
                     StopFinishTime = table.Column<string>(nullable: true),
+                    StopSequence = table.Column<int>(nullable: false),
                     StopStartTime = table.Column<string>(nullable: true),
                     StreetName = table.Column<string>(nullable: true),
                     StreetNumber = table.Column<string>(nullable: true),
                     TimeWindowFrom = table.Column<string>(nullable: true),
-                    TimeWindowTo = table.Column<string>(nullable: true),
+                    TimeWindowTill = table.Column<string>(nullable: true),
                     TripId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trips",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccountId = table.Column<string>(nullable: true),
+                    AvailableFromTime = table.Column<DateTime>(nullable: false),
+                    AvailableTillTime = table.Column<DateTime>(nullable: false),
+                    DriverId = table.Column<string>(nullable: true),
+                    FinishTime = table.Column<DateTime>(nullable: false),
+                    NOfStops = table.Column<int>(nullable: false),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    TotalDistanceInKm = table.Column<float>(nullable: false),
+                    TotalDurationInSec = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trips", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,6 +112,9 @@ namespace DriverApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Trips");
 
             migrationBuilder.DropTable(
                 name: "Managers");

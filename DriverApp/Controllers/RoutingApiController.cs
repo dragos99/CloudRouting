@@ -31,7 +31,7 @@ namespace DriverApp.Controllers
         }
 
         [HttpPost("trigger")]
-        public StatusCodeResult TriggerRouting([FromBody] ReceiveTriggerRequestDto data)
+        public int TriggerRouting([FromBody] ReceiveTriggerRequestDto data)
         {
 			string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
 			string driverId = data.driverId;
@@ -40,12 +40,11 @@ namespace DriverApp.Controllers
 			IEnumerable<Order> orders = _dbRepo.GetUnplannedOrders();
             if (orders.Any())
             {
-                bool success = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId);
-                if (success) return StatusCode(200);
-                return StatusCode(400);
+                int planned = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId);
+				return planned;
             }
 
-			return StatusCode(404);
+			return 0;
         }
     }
 }
