@@ -66,7 +66,7 @@ namespace DriverApp.Services
 				var response = await _client.PostAsync($"/api/v1/routing?key={_key}&profile={_routingProfile}&async=false", content);
 				_logger.LogInformation(response.Content.ReadAsStringAsync().Result);
 				trip = JsonConvert.DeserializeObject<TriggerResponse>(response.Content.ReadAsStringAsync().Result);
-                _logger.LogInformation($"Error getting route from OrtecCloud: {response.Content.ReadAsStringAsync().Result}");
+                _logger.LogInformation($"Ortec Cloud API response: {response.Content.ReadAsStringAsync().Result}");
             }
 			catch (HttpRequestException httpRequestException)
 			{
