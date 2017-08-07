@@ -66,9 +66,8 @@ namespace DriverApp.Services
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
 				int lastid = (_db.Trips.Count() > 0) ? (_db.Trips.Last().Id) + 1 : 0;
 
-				/*foreach (var stop in stops)
+				foreach (var stop in stops)
 				{
-                    _logger.LogInformation("Found");
                     var order = orders.Find(o => o.Id.ToString() == stop.AddressId);
 					if (order == null) continue;
 					order.TripId = lastid;
@@ -76,7 +75,7 @@ namespace DriverApp.Services
 					order.ArrivalDateTime = stop.ArrivalDateTime;
 					order.DepartureDateTime = stop.DepartureDateTime;
 					order.Distance = stop.Distance;
-				}*/
+				}
 
 				_db.Trips.Add(trip);
 				_db.SaveChanges();
