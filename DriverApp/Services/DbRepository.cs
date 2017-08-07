@@ -66,23 +66,36 @@ namespace DriverApp.Services
 
 				List<Order> orders = GetUnplannedOrders().ToList();
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
+<<<<<<< HEAD
 				_logger.LogInformation("Stops: " + stops.Count.ToString());
 				var last = _db.Trips.Last();
 				int lastid = (last == null) ? 1 : last.Id + 1;
 
 				
 				foreach (var stop in stops)
+=======
+				int lastid = (_db.Trips.Count() > 0) ? (_db.Trips.Last().Id) + 1 : 0;
+
+				/*foreach (var stop in stops)
+>>>>>>> b7dc36f7c475812ff82b087a82ba313b4815cadb
 				{
-					var order = orders.Find(o => o.Id.ToString() == stop.AddressId);
+                    _logger.LogInformation("Found");
+                    var order = orders.Find(o => o.Id.ToString() == stop.AddressId);
 					if (order == null) continue;
 					order.TripId = lastid;
 					order.StopSequence = stop.StopSequence;
 					order.ArrivalDateTime = stop.ArrivalDateTime;
 					order.DepartureDateTime = stop.DepartureDateTime;
 					order.Distance = stop.Distance;
+<<<<<<< HEAD
 					_logger.LogInformation("key");
 				}
 				
+=======
+				}*/
+
+				_db.Trips.Add(trip);
+>>>>>>> b7dc36f7c475812ff82b087a82ba313b4815cadb
 				_db.SaveChanges();
             }
             catch(Exception e)
