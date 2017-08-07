@@ -69,6 +69,7 @@ namespace DriverApp.Services
 				foreach (var stop in stops)
 				{
 					var order = orders.Find(o => o.Id == stop.AddressId);
+					if (order == null) continue;
 					order.TripId = lastid;
 					order.StopSequence = stop.StopSequence;
 					order.ArrivalDateTime = stop.ArrivalDateTime;

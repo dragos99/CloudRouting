@@ -61,7 +61,9 @@ namespace DriverApp.Services
 				}
 
 				StringContent content = new StringContent(JsonConvert.SerializeObject(triggerRequest), Encoding.UTF8, "application/json");
+				_logger.LogInformation(JsonConvert.SerializeObject(triggerRequest));
 				var response = await _client.PostAsync($"/api/v1/routing?key={_key}&profile={_routingProfile}&async=false", content);
+				_logger.LogInformation(response.Content.ReadAsStringAsync().Result);
 				trip = JsonConvert.DeserializeObject<TriggerResponse>(response.Content.ReadAsStringAsync().Result);
 			}
 			catch (HttpRequestException httpRequestException)
