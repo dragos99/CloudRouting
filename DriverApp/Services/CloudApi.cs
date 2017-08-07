@@ -40,7 +40,7 @@ namespace DriverApp.Services
 					RequestParameters = new List<RequestParameter> { new RequestParameter { Name = "command", Value = "single-route" } },
 					Data = new RequestData
 					{
-						Addresses = new List<Address> { new Address { Lat = 44.0121f, Long = 23.1393f, Id = "depot" } },
+						Addresses = new List<Address> { new Address { Lat = 44.44462f, Long = 26.05474f, Id = "depot" } },
 						Depots = new List<Depot> { new Depot { AddressId = "depot", Id = 1 } },
 						Routes = new List<Route> { new Route { Id = 1 } }
 					}
@@ -58,14 +58,16 @@ namespace DriverApp.Services
 						Type = order.OrderType,
 						Id = order.Id
 					});
-				}
+                    //_logger.LogInformation($"TimeWindowFrom: {order.TimeWindowFrom}, TimeWindowTill: {order.TimeWindowTill}");
+                }
 
 				StringContent content = new StringContent(JsonConvert.SerializeObject(triggerRequest), Encoding.UTF8, "application/json");
 				_logger.LogInformation(JsonConvert.SerializeObject(triggerRequest));
 				var response = await _client.PostAsync($"/api/v1/routing?key={_key}&profile={_routingProfile}&async=false", content);
 				_logger.LogInformation(response.Content.ReadAsStringAsync().Result);
 				trip = JsonConvert.DeserializeObject<TriggerResponse>(response.Content.ReadAsStringAsync().Result);
-			}
+                _logger.LogInformation($"Error getting route from OrtecCloud: {response.Content.ReadAsStringAsync().Result}");
+            }
 			catch (HttpRequestException httpRequestException)
 			{
 				_logger.LogInformation($"Error getting route from OrtecCloud: {httpRequestException.Message}");
