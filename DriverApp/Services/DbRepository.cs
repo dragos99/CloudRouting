@@ -60,11 +60,14 @@ namespace DriverApp.Services
 					NOfStops = response.OutputPlan.Routes[0].NofStops
 				};
 
+				_db.Trips.Add(trip);
+
 				if (trip.NOfStops == 0) return 0;
 
 				List<Order> orders = GetUnplannedOrders().ToList();
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
-				int lastid = (_db.Trips.Count() > 0) ? (_db.Trips.Last().Id) + 1 : 0;
+				var last = _db.Trips.Last();
+				int lastid = (last == null) ? 1 : last.Id + 1;
 
 				foreach (var stop in stops)
 				{
@@ -85,7 +88,6 @@ namespace DriverApp.Services
 				_logger.LogInformation("Insert Trip exception " + e.Message);
                 return 0;
             }
-
 
             return response.OutputPlan.Routes[0].Stops.Count;
         }
