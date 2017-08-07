@@ -49,7 +49,7 @@ namespace DriverApp.Services
         {
             try
             {
-                var trip = new Trip {
+				var trip = new Trip {
 					AccountId = customerKey,
 					DriverId = driverId,
 					AvailableFromTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
@@ -57,17 +57,25 @@ namespace DriverApp.Services
 					StartTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
 					FinishTime = DateTime.Parse(response.OutputPlan.Routes[0].FinishDateTime),
 					TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
-					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec
+					TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec,
+					NOfStops = response.OutputPlan.Routes[0].NofStops
 				};
 
-				 _db.Trips.Add(trip);
+				List<Order> orders = GetUnplannedOrders().ToList();
+				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
+				int lastid = _db.Trips.Last().Id + 1;
 
-				IEnumerable<Order> orders = GetUnplannedOrders();
-				var lastid = _db.Trips.Last().Id + 1;
-				foreach (var order in orders)
-				{ 
+				foreach (var stop in stops)
+				{
+					var order = orders.Find(o => o.Id == stop.AddressId);
 					order.TripId = lastid;
+					order.StopSequence = stop.StopSequence;
+					order.ArrivalDateTime = stop.ArrivalDateTime;
+					order.DepartureDateTime = stop.DepartureDateTime;
+					order.Distance = stop.Distance;
 				}
+
+				_db.Trips.Add(trip);
 				_db.SaveChanges();
             }
             catch(Exception e)

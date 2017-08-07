@@ -100,7 +100,7 @@ namespace DriverApp.Dtos.CloudDtos
 
 	public class Stop
 	{
-		public string AddressId;
+		public int AddressId;
 		public int StopSequence;
 		public string Type;
 		public int DrivingTimeInSec;
