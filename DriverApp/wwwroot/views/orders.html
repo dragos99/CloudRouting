@@ -1,6 +1,9 @@
 <div style="height:100%;" >
 	<div id="header">
-		<div id="page-title">Orders</div>
+		<div id="page-title">
+			<h1>Orders</h1>
+			<h5>{{vm.orders.length}} unplanned orders </h5>
+		</div>
 		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Add order </div>
 	</div>
 
@@ -20,16 +23,16 @@
 									<th> Street name </th>
 								</tr>
 								<tr>
-									<td> {{order.cityName}} </td>
-									<td> {{order.streetName + ' ' + order.streetNumber}} </td>
+									<td title="{{order.cityName}}"> {{order.cityName}} </td>
+									<td title="{{order.streetName + ' ' + order.streetNumber}}"> {{order.streetName + ' ' + order.streetNumber}} </td>
 								</tr>
 								<tr>
 									<th> From </th>
 									<th> Until </th>
 								</tr>
 								<tr>
-									<td> {{order.timeWindowFrom}} </td>
-									<td> {{order.timeWindowTill}} </td>
+									<td title="{{order.timeWindowFrom}}"> {{order.timeWindowFrom}} </td>
+									<td title="{{order.timeWindowTill}}"> {{order.timeWindowTill}} </td>
 								</tr>
 							</table>
 						</div>
