@@ -10,10 +10,7 @@
 		$locationProvider.html5Mode(true);
 		$routeProvider
 			.when("/", {
-				templateUrl: "views/orders.html",
-				ordersList: function(Api) {
-					return Api.getOrders();
-				}
+				templateUrl: "views/orders.html"
 			})
 			.when("/drivers", {
 				templateUrl: "views/drivers.html"

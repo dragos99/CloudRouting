@@ -12,8 +12,8 @@
 			return $http.post('/api/login/manager', { customerKey: key });
 		}
 
-		this.sendNewOrder = function(order) {
-			return $http.post('/api/manager/newOrder', order);
+		this.sendNewOrder = function(orders) {
+			return $http.post('/api/manager/newOrders', {orders});
 		}
 
 		this.getOrders = function() {

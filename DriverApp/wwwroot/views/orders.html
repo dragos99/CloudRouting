@@ -1,10 +1,10 @@
 <div style="height:100%;" >
 	<div id="header">
 		<div id="page-title">
-			<h1>Orders</h1>
+			<h1>Unplanned orders</h1>
 			<h5>{{vm.orders.length}} unplanned orders </h5>
 		</div>
-		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Add order </div>
+		<div class="btn btn-transparent light lowercase no-spacing" ng-click="vm.openOrderCreation()"> Upload orders </div>
 	</div>
 
 	<div id="container">
@@ -57,17 +57,27 @@
 								<th class="value"> Value </th>
 							</tr>
 						</thead>
-						<tbody id="order-body"></tbody>
+						<tbody id="order-body">
+							<tr ng-repeat="field in vm.uploadFields">
+								<td> {{field}} </td>
+								<td> {{vm.uploadValues[vm.selectedOrder][$index]}} </td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 
 				<div id="notify_success" class="fadein" ng-show="vm.uploadStep == 3">
 					<img src="img/success.svg" width="100px"/>
-					<h3>Success! A new order has been added.</h3>
+					<h3>Success! {{vm.uploadOrders.length}} orders have been added.</h3>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<div class="btn btn-transparent fade" ng-click="vm.closeOrderCreation()" ng-show="vm.uploadStep != 3"> Cancel </div>
+				<ul class="pagination fade fadein" ng-show="vm.uploadStep == 2">
+					<li ng-repeat="order in vm.uploadValues" ng-click="vm.selectedOrder=$index" ng-class="{'active': vm.selectedOrder == $index}">
+						<a href="#"> {{$index}} </a>
+					</li>
+				</ul>
 				<div class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </div>
 			</div>
 		</div>

@@ -310,3 +310,34 @@ h1, h2, h3, h4, h5, h6 {
     40% { opacity: 0; }
     100% { opacity: 1; }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #26a2d5;
+    border-color: #26a2d5;
+}
+
+.lowercase {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 16px;
+}

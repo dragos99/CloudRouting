@@ -7,14 +7,16 @@
     function OrdersController($scope, $timeout, Api, orders, drivers) {
         var _this = this;
         var uploadBtn = document.getElementById('upload-btn');
-        _this.orderBody = document.getElementById('order-body');
 
         this.modal = '';
         this.uploadStep = 1;
-        this.order = {};
+        this.uploadOrders = [];
         this.orders = orders;
         this.drivers = drivers;
         this.tripDriver = '0';
+        _this.uploadFields = [];
+        _this.uploadValues = [];
+        _this.selectedOrder = 0;
 
 
         /**   Methods   **/
@@ -22,6 +24,9 @@
         this.openOrderCreation = function() {
             this.modal = 'newOrder';
             _this.order = {};
+            this.uploadOrders = [];
+            _this.uploadFields = [];
+            _this.uploadValues = [];
         }
 
         this.closeOrderCreation = function() {
@@ -30,23 +35,25 @@
 
             $timeout(function() {
                 _this.uploadStep = 1;
-                _this.orderBody.innerHTML = '';
             }, 300);
         }
 
         this.saveOrder = function() {
-            Api.sendNewOrder(this.order).then(function(res) {
+            Api.sendNewOrder(this.uploadOrders).then(function(res) {
                 if (res.data.error) {
                     console.log(res.data.error);
                 } else {
                     _this.uploadStep = 3;
-                    _this.order.id = res.data.id;
 
                     $timeout(function() {
                         _this.closeOrderCreation();
-                        anim();
+                        scroll_down();
+
                         $timeout(function() {
-                            _this.orders.push(_this.order);
+                            for (var i = _this.uploadOrders.length - 1; i >= 0; --i) {
+                                _this.uploadOrders[i].id = res.data.id--;
+                                _this.orders.push(_this.uploadOrders[i]);
+                            }
                         }, 500);
                     }, 1500);
                 }
@@ -57,23 +64,26 @@
             var reader = new FileReader();
             var files = evt.target.files;
             var f = files[0];
-            var html = '';
 
             reader.onload = function(file) {
                 var csv = file.target.result;
                 var rows = csv.split('\r\n');
-                var columns = rows[0].split(',');
-                var values = rows[1].split(',');
+                _this.uploadFields = rows[0].split(',');
+                rows.splice(0, 1);
 
-                for (var i = 0; i < columns.length; ++i) {
-                    html += '<tr><td>'+ columns[i] +'</td><td>'+ values[i] +'</td></tr>'
-                    _this.order[columns[i]] = values[i];
+                for (var i = 0; i < rows.length; ++i) {
+                    _this.uploadValues.push(rows[i].split(','));
+                    var order = {};
+                    for (var j = 0; j < _this.uploadValues[i].length; ++j) {
+                        order[_this.uploadFields[j]] = _this.uploadValues[i][j];
+                    }
+                    _this.uploadOrders.push(order);
                 }
+
+                _this.selectedOrder = 0;
 
                 _this.uploadStep = 2;
                 $scope.$apply();
-                _this.orderTable = document.getElementById('order-body');
-                _this.orderTable.insertAdjacentHTML('beforeend', html);
             }
 
             reader.readAsText(f);
@@ -88,7 +98,6 @@
         }
 
     }
-
 
 
     app.directive('loadCsv', function($timeout) {
@@ -107,7 +116,7 @@
 
 
 
-function anim () {
+function scroll_down() {
     var el = jq("#orders-container");
     el.animate({scrollTop: el[0].scrollHeight}, 600);
 }

@@ -45,21 +45,24 @@ namespace DriverApp.Controllers
             return Mapper.Map<IEnumerable<SendDriverDto>>(drivers);
         }
 
-		[HttpPost("newOrder")]
-		public JsonResult NewOrder([FromBody] Order order)
+		[HttpPost("newOrders")]
+		public JsonResult NewOrder([FromBody] ReceiveOrdersDto data)
 		{
 			try
 			{
-				_db.Orders.Add(order);
+				foreach (var order in data.orders)
+				{
+					_db.Orders.Add(order);
+				}
+
 				_db.SaveChanges();
-				_db.Entry(order).GetDatabaseValues();
 			} catch (Exception e)
 			{
 				_logger.LogError(e.Message);
 				return Json(new { error = e.Message });
 			}
 
-			return Json(new { id = order.Id });
+			return Json(new { id = _db.Orders.Last().Id });
 		}
     }
 }
