@@ -39,6 +39,12 @@ namespace DriverApp.Services
             return orders;
         }
 
+        public IEnumerable<Trip> GetDriverTrips(string customerKey)
+        {
+            IEnumerable<Trip> trips = _db.Trips.Where(m => m.AccountId == customerKey);
+            return trips;
+        }
+
         public Driver GetDriver(string key, string id)
         {
             return _db.Drivers.Where(d => d.DriverId == id && d.CustomerKey == key).FirstOrDefault();

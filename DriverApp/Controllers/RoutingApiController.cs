@@ -30,6 +30,13 @@ namespace DriverApp.Controllers
             return _dbRepo.GetUnplannedOrders();
         }
 
+        [HttpPost("trips")]
+        public IEnumerable<Trip> GetUnplannedOrders([FromBody] ReceiveTriggerRequestDto data)
+        {
+            string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            return _dbRepo.GetDriverTrips(customerKey);
+        }
+
         [HttpPost("trigger")]
         public int TriggerRouting([FromBody] ReceiveTriggerRequestDto data)
         {
