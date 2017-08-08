@@ -47,7 +47,7 @@
                         anim();
                         $timeout(function() {
                             _this.orders.push(_this.order);
-                        }, 1000);
+                        }, 500);
                     }, 1500);
                 }
             });
@@ -91,7 +91,6 @@
 
 
 
-
     app.directive('loadCsv', function($timeout) {
         return {
             link: function(scope, elem, attrs) {
@@ -110,5 +109,5 @@
 
 function anim () {
     var el = jq("#orders-container");
-    el.animate({scrollTop: el[0].scrollHeight}, 1000);
+    el.animate({scrollTop: el[0].scrollHeight}, 600);
 }
