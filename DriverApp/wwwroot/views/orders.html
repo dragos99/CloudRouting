@@ -60,7 +60,7 @@
 						<tbody id="order-body">
 							<tr ng-repeat="field in vm.uploadFields">
 								<td> {{field}} </td>
-								<td> <input type="text" class="upload-value-field" ng-model="vm.uploadValues[vm.selectedOrder][$index]" /> </td>
+								<td> <input type="text" class="upload-value-field" ng-model="vm.uploadValues[vm.selectedOrder][$index]" spellcheck="false"/> </td>
 							</tr>
 						</tbody>
 					</table>
