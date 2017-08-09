@@ -28,6 +28,10 @@ a:hover, a:focus {
 	text-decoration: none!important;
 }
 
+th {
+    font-weight: 700;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
@@ -340,4 +344,14 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: none;
     letter-spacing: normal;
     font-size: 16px;
+}
+
+input[type=text], textarea {
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background 0.1s;
+  outline: none;
+}
+
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
 }

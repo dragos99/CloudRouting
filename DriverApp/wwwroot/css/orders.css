@@ -30,6 +30,25 @@
     padding-top: 30px;
 }
 
+#order-data tr>td:nth-child(2) {
+    padding: 0;
+}
+
+.upload-value-field {
+    background: transparent;
+    width: 100%;
+    outline: none;
+    padding: 7px;
+    border: 1px solid transparent;
+}
+
+.upload-value-field:hover {
+    background: #f2f2f2;
+}
+.upload-value-field:focus {
+    background: #fff;
+}
+
 #notify_success {
     text-align: center;
 }

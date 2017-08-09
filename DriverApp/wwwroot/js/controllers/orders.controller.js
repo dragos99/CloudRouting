@@ -10,23 +10,22 @@
 
         this.modal = '';
         this.uploadStep = 1;
-        this.uploadOrders = [];
         this.orders = orders;
         this.drivers = drivers;
         this.tripDriver = '0';
-        _this.uploadFields = [];
-        _this.uploadValues = [];
-        _this.selectedOrder = 0;
+        this.uploadFields = [];
+        this.uploadValues = [];
+        this.uploadOrders = [];
+        this.selectedOrder = 0;
 
 
         /**   Methods   **/
 
         this.openOrderCreation = function() {
             this.modal = 'newOrder';
-            _this.order = {};
-            this.uploadOrders = [];
-            _this.uploadFields = [];
-            _this.uploadValues = [];
+            this.order = {};
+            this.uploadFields = [];
+            this.uploadValues = [];
         }
 
         this.closeOrderCreation = function() {
@@ -39,6 +38,15 @@
         }
 
         this.saveOrder = function() {
+            this.uploadOrders = [];
+            for (var i = 0; i < this.uploadValues.length; ++i) {
+                var order = {};
+                for (var j = 0; j < this.uploadValues[i].length; ++j) {
+                    order[this.uploadFields[j]] = this.uploadValues[i][j];
+                }
+                this.uploadOrders.push(order);
+            }
+
             Api.sendNewOrder(this.uploadOrders).then(function(res) {
                 if (res.data.error) {
                     console.log(res.data.error);
@@ -73,11 +81,6 @@
 
                 for (var i = 0; i < rows.length; ++i) {
                     _this.uploadValues.push(rows[i].split(','));
-                    var order = {};
-                    for (var j = 0; j < _this.uploadValues[i].length; ++j) {
-                        order[_this.uploadFields[j]] = _this.uploadValues[i][j];
-                    }
-                    _this.uploadOrders.push(order);
                 }
 
                 _this.selectedOrder = 0;

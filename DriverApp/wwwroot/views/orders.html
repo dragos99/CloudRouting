@@ -60,7 +60,7 @@
 						<tbody id="order-body">
 							<tr ng-repeat="field in vm.uploadFields">
 								<td> {{field}} </td>
-								<td> {{vm.uploadValues[vm.selectedOrder][$index]}} </td>
+								<td> <input type="text" class="upload-value-field" ng-model="vm.uploadValues[vm.selectedOrder][$index]" /> </td>
 							</tr>
 						</tbody>
 					</table>
@@ -73,9 +73,9 @@
 			</div>
 			<div class="modal-footer">
 				<div class="btn btn-transparent fade" ng-click="vm.closeOrderCreation()" ng-show="vm.uploadStep != 3"> Cancel </div>
-				<ul class="pagination fade fadein" ng-show="vm.uploadStep == 2">
+				<ul class="pagination fade fadein" ng-show="vm.uploadStep == 2 && vm.uploadValues.length > 1">
 					<li ng-repeat="order in vm.uploadValues" ng-click="vm.selectedOrder=$index" ng-class="{'active': vm.selectedOrder == $index}">
-						<a href="#"> {{$index}} </a>
+						<a href="#"> {{$index + 1}} </a>
 					</li>
 				</ul>
 				<div class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </div>
