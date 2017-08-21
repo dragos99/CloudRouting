@@ -30,6 +30,12 @@ namespace DriverApp.Controllers
             return _dbRepo.GetUnplannedOrders();
         }
 
+        [HttpGet("orders/{id}")]
+        public IEnumerable<Order> GetTripOrders(int id)
+        {
+            return _dbRepo.GetTripOrders(id);
+        }
+
         [HttpPost("trips")]
         public IEnumerable<Trip> GetUnplannedOrders([FromBody] ReceiveTriggerRequestDto data)
         {

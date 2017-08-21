@@ -22,8 +22,13 @@ namespace DriverApp.Dtos
 		public List<Order> orders;
 	}
 
+    public class ReceiveSingleTripOrdersRequestDto
+    {
+        public int tripId;
+    }
 
-	public class ReceiveTriggerRequestDto
+
+    public class ReceiveTriggerRequestDto
 	{
 		public string driverId;
 	}
