@@ -4,7 +4,7 @@
 			<h1>Unplanned orders</h1>
 			<h5>{{vm.orders.length}} unplanned orders </h5>
 		</div>
-		<div class="btn btn-transparent light lowercase no-spacing" ng-click="vm.openOrderCreation()"> Upload orders </div>
+		<div class="btn btn-transparent light lowercase no-spacing" ng-click="vm.openAssignModal()"> Assign to drivers </div>
 	</div>
 
 	<div id="container">
@@ -84,7 +84,25 @@
 
 
 
-		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Generate trip" ng-click="vm.modal = 'generateTrip'">
+
+
+
+		<div id="assignModal" class='modal fade' ng-show="vm.modal === 'assignOrders'">
+			<div class="modal-body">
+				<div id="assignOrdersMap"></div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn btn-transparent fade" ng-click="vm.modal = ''"> Cancel </div>
+				<div class="info fadein fade absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == true"> <img class="icon" src="img/info.svg" /> Select orders by drawing a polygon around them </div>
+				<div class="btn fadein fade btn-transparent lowercase absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == false" ng-click="vm.retrySelection()"> Retry </div>
+				<div class="btn uppercase fade" ng-show="vm.assignStep == 1" ng-click="vm.assignStep = 2"> Next </div>
+			</div>
+		</div>
+
+
+
+
+		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Upload order" ng-click="vm.openOrderCreation()">
 			<img src="img/road.svg" />
 		</div>
 

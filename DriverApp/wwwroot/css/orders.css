@@ -154,8 +154,32 @@
 #generate-trip {
     padding: 20px 40px 40px 40px;
     background: #fff;
-        border-radius: 5px;
+    border-radius: 5px;
 }
+
+
+
+
+
+
+
+#assignOrdersMap {
+    width: 100%;
+    height: 100%;
+}
+
+.modal-footer {
+    position: relative;
+}
+
+
+
+
+
+
+
+
+
 
 
 .fast-fadein {

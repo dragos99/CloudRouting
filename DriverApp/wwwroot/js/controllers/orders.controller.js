@@ -17,6 +17,19 @@
         this.uploadValues = [];
         this.uploadOrders = [];
         this.selectedOrder = 0;
+        this.assignStep = 1;
+        this.orderSelection = true;
+        this.mapShapes = [];
+
+        var icon = {
+            url: "img/marker-red.png", // url
+            scaledSize: new google.maps.Size(24, 38), // scaled size
+        }
+
+        var selectedIcon = {
+            url: "img/marker.green.png", // url
+            scaledSize: new google.maps.Size(24, 38), // scaled size
+        };
 
 
         /**   Methods   **/
@@ -97,6 +110,81 @@
             Api.triggerRouting(this.tripDriver).then(function(res) {
                 console.log(res);
                 _this.modal = '';
+            });
+        }
+
+
+        this.openAssignModal = function() {
+            this.modal = 'assignOrders';
+            this.assignStep = 1;
+            this.orderSelection = true;
+
+            $timeout(function() {
+                _this.initMap();
+            }, 300);
+
+        }
+
+        this.retrySelection = function() {
+            this.orders.forEach(function(order) {
+                order.marker.setIcon(icon);
+            });
+
+            this.mapShapes.forEach(function(shape) {
+                shape.setMap(null);
+            });
+
+            this.mapShapes = [];
+            this.orderSelection = true;
+        }
+
+
+        this.initMap = function() {
+        	var bucharest = {lat: 44.431430, lng: 26.104249};
+        	this.map = new google.maps.Map(document.getElementById('assignOrdersMap'), {
+        		zoom: 11,
+        		center: bucharest
+        	});
+
+            this.orders.forEach(function(order) {
+                var marker = new google.maps.Marker({
+            		position: {lat: order.givenX, lng: order.givenY},
+            		map: _this.map,
+                    title: 'Order ' + order.id,
+                    icon: icon
+            	});
+
+                order.marker = marker;
+            });
+
+            this.drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: ['polygon']
+                },
+                polygonOptions: {
+                    strokeColor: '#147fbf',
+                    fillColor: '#29b6ec'
+                }
+            });
+
+            this.drawingManager.setMap(this.map);
+
+            google.maps.event.addListener(this.drawingManager, 'overlaycomplete', function(polygon) {
+                _this.orders.forEach(function(order) {
+                    var coords = new google.maps.LatLng(order.givenX, order.givenY);
+                    var inside = google.maps.geometry.poly.containsLocation(coords, polygon.overlay);
+                    if (inside) {
+                        order.marker.setIcon(selectedIcon);
+                    }
+                });
+
+                _this.orderSelection = false;
+                $scope.$apply();
+
+                _this.mapShapes.push(polygon.overlay);
             });
         }
 
