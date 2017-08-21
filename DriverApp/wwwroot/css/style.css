@@ -28,6 +28,10 @@ a:hover, a:focus {
 	text-decoration: none!important;
 }
 
+th {
+    font-weight: 700;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
@@ -187,7 +191,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .floating-btn img {
-    width: 60%;
+    width: 50%;
 }
 
 .btn:hover {
@@ -272,6 +276,7 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     height: 85%;
     padding: 45px !important;
+    padding-bottom: 20px !important;
 }
 .modal-footer {
     height: 15%;
@@ -296,6 +301,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+.info {
+    position: relative;
+    background: #e1f5fe;
+    color: #0288d1;
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.icon {
+    float: left;
+    height: 21px;
+    margin-right: 10px;
+}
+
 
 @keyframes expand-modal {
     0% { width: 0%; height: 0%; opacity: 0; }
@@ -309,4 +329,50 @@ h1, h2, h3, h4, h5, h6 {
     0% {opacity: 0;}
     40% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    background-color: #26a2d5;
+    border-color: #26a2d5;
+}
+
+.lowercase {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 16px;
+}
+
+input[type=text], textarea {
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background 0.1s;
+  outline: none;
+}
+
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 1px solid rgba(81, 203, 238, 1);
 }

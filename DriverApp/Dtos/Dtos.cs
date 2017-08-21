@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DriverApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,19 +17,11 @@ namespace DriverApp.Dtos
         public string driverId;
     }
 
-	public class ReceiveOrderDto
+	public class ReceiveOrdersDto
 	{
-		public string ordeType;
-		public string streetName;
-		public string streetNumber;
-		public string cityName;
-		public string countryCode;
-		public float latitude;
-		public float longitude;
-		public int fixedDurationInSec;
-		public string timeWindowFrom;
-		public string timeWindowTill;
+		public List<Order> orders;
 	}
+
 
 	public class ReceiveTriggerRequestDto
 	{

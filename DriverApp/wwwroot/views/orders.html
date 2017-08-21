@@ -1,10 +1,10 @@
 <div style="height:100%;" >
 	<div id="header">
 		<div id="page-title">
-			<h1>Orders</h1>
+			<h1>Unplanned orders</h1>
 			<h5>{{vm.orders.length}} unplanned orders </h5>
 		</div>
-		<div class="btn btn-transparent  light" ng-click="vm.openOrderCreation()"> Add order </div>
+		<div class="btn btn-transparent light lowercase no-spacing" ng-click="vm.openAssignModal()"> Assign to drivers </div>
 	</div>
 
 	<div id="container">
@@ -57,24 +57,52 @@
 								<th class="value"> Value </th>
 							</tr>
 						</thead>
-						<tbody id="order-body"></tbody>
+						<tbody id="order-body">
+							<tr ng-repeat="field in vm.uploadFields">
+								<td> {{field}} </td>
+								<td> <input type="text" class="upload-value-field" ng-model="vm.uploadValues[vm.selectedOrder][$index]" spellcheck="false"/> </td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 
 				<div id="notify_success" class="fadein" ng-show="vm.uploadStep == 3">
 					<img src="img/success.svg" width="100px"/>
-					<h3>Success! A new order has been added.</h3>
+					<h3>Success! {{vm.uploadOrders.length}} orders have been added.</h3>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<div class="btn btn-transparent fade" ng-click="vm.closeOrderCreation()" ng-show="vm.uploadStep != 3"> Cancel </div>
+				<ul class="pagination fade fadein" ng-show="vm.uploadStep == 2 && vm.uploadValues.length > 1">
+					<li ng-repeat="order in vm.uploadValues" ng-click="vm.selectedOrder=$index" ng-class="{'active': vm.selectedOrder == $index}">
+						<a href="#"> {{$index + 1}} </a>
+					</li>
+				</ul>
 				<div class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </div>
 			</div>
 		</div>
 
 
 
-		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Generate trip" ng-click="vm.modal = 'generateTrip'">
+
+
+
+		<div id="assignModal" class='modal fade' ng-show="vm.modal === 'assignOrders'">
+			<div class="modal-body">
+				<div id="assignOrdersMap"></div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn btn-transparent fade" ng-click="vm.modal = ''"> Cancel </div>
+				<div class="info fadein fade absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == true"> <img class="icon" src="img/info.svg" /> Select orders by drawing a polygon around them </div>
+				<div class="btn fadein fade btn-transparent lowercase absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == false" ng-click="vm.retrySelection()"> Retry </div>
+				<div class="btn uppercase fade" ng-show="vm.assignStep == 1" ng-click="vm.assignStep = 2"> Next </div>
+			</div>
+		</div>
+
+
+
+
+		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Upload order" ng-click="vm.openOrderCreation()">
 			<img src="img/road.svg" />
 		</div>
 
