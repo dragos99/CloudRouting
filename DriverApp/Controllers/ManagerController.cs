@@ -64,5 +64,27 @@ namespace DriverApp.Controllers
 
 			return Json(new { id = _db.Orders.Last().Id });
 		}
-    }
+
+		[HttpPost("assignOrders")]
+		public JsonResult AssignOrders([FromBody] ReceiveOrdersAssignationDto data)
+		{
+			try
+			{
+				foreach (var orderId in data.orders)
+				{
+					var order = _db.Orders.Where(o => o.Id == orderId).FirstOrDefault();
+					order.DriverId = data.driverId;
+				}
+
+				_db.SaveChanges();
+			}
+			catch (Exception e)
+			{
+				_logger.LogError(e.Message);
+				return Json(new { error = e.Message });
+			}
+
+			return Json("ok");
+		}
+	}
 }

@@ -4,7 +4,7 @@
     var app = angular.module('app');
     app.controller('OrdersCtrl', OrdersController);
 
-    function OrdersController($scope, $timeout, Api, orders, drivers) {
+    function OrdersController($scope, $timeout, $route, Api, orders, drivers) {
         var _this = this;
         var uploadBtn = document.getElementById('upload-btn');
 
@@ -12,7 +12,6 @@
         this.uploadStep = 1;
         this.orders = orders;
         this.drivers = drivers;
-        this.tripDriver = '0';
         this.uploadFields = [];
         this.uploadValues = [];
         this.uploadOrders = [];
@@ -20,6 +19,8 @@
         this.assignStep = 1;
         this.orderSelection = true;
         this.mapShapes = [];
+        this.ordersSelected = 0;
+        this.selectedDriver = '0';
 
         var icon = {
             url: "img/marker-red.png", // url
@@ -67,15 +68,7 @@
                     _this.uploadStep = 3;
 
                     $timeout(function() {
-                        _this.closeOrderCreation();
-                        scroll_down();
-
-                        $timeout(function() {
-                            for (var i = _this.uploadOrders.length - 1; i >= 0; --i) {
-                                _this.uploadOrders[i].id = res.data.id--;
-                                _this.orders.push(_this.uploadOrders[i]);
-                            }
-                        }, 500);
+                        $route.reload();
                     }, 1500);
                 }
             });
@@ -116,8 +109,10 @@
 
         this.openAssignModal = function() {
             this.modal = 'assignOrders';
+            this.retrySelection();
             this.assignStep = 1;
-            this.orderSelection = true;
+            this.ordersSelected = 0;
+            this.selectedDriver = '0';
 
             $timeout(function() {
                 _this.initMap();
@@ -128,6 +123,7 @@
         this.retrySelection = function() {
             this.orders.forEach(function(order) {
                 order.marker.setIcon(icon);
+                order.selected = false;
             });
 
             this.mapShapes.forEach(function(shape) {
@@ -136,6 +132,16 @@
 
             this.mapShapes = [];
             this.orderSelection = true;
+        }
+
+        this.assignOrdersToDriver = function() {
+            var data = [];
+            this.orders.forEach(function(order) {
+                if (order.selected) data.push(order.id);
+            });
+            Api.assignOrders(data, this.selectedDriver).then(function(res) {
+                console.log(res);
+            });
         }
 
 
@@ -178,6 +184,8 @@
                     var inside = google.maps.geometry.poly.containsLocation(coords, polygon.overlay);
                     if (inside) {
                         order.marker.setIcon(selectedIcon);
+                        order.selected = true;
+                        _this.ordersSelected++;
                     }
                 });
 
@@ -204,7 +212,6 @@
     });
 
 })();
-
 
 
 function scroll_down() {

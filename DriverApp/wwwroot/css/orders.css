@@ -172,6 +172,11 @@
     position: relative;
 }
 
+#driverSelection {
+    width: 50%;
+    margin-top: 20px;
+}
+
 
 
 

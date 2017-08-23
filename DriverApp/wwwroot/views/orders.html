@@ -4,7 +4,7 @@
 			<h1>Unplanned orders</h1>
 			<h5>{{vm.orders.length}} unplanned orders </h5>
 		</div>
-		<div class="btn btn-transparent light lowercase no-spacing" ng-click="vm.openAssignModal()"> Assign to drivers </div>
+		<button class="btn btn-transparent light lowercase no-spacing" ng-click="vm.openAssignModal()"> Assign to drivers </button>
 	</div>
 
 	<div id="container">
@@ -41,6 +41,9 @@
 			</div>
 		</div>
 
+
+		<!-- ********* New order modal **********-->
+
 		<div id="newOrderModal" class='modal fade' ng-show="vm.modal === 'newOrder'">
 			<div class="modal-body">
 				<div class="upload-area fade" ng-show="vm.uploadStep == 1">
@@ -72,30 +75,41 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<div class="btn btn-transparent fade" ng-click="vm.closeOrderCreation()" ng-show="vm.uploadStep != 3"> Cancel </div>
+				<button class="btn btn-transparent fade" ng-click="vm.closeOrderCreation()" ng-show="vm.uploadStep != 3"> Cancel </button>
 				<ul class="pagination fade fadein" ng-show="vm.uploadStep == 2 && vm.uploadValues.length > 1">
 					<li ng-repeat="order in vm.uploadValues" ng-click="vm.selectedOrder=$index" ng-class="{'active': vm.selectedOrder == $index}">
 						<a href="#"> {{$index + 1}} </a>
 					</li>
 				</ul>
-				<div class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </div>
+			<button class="btn uppercase fade" ng-click="vm.saveOrder()" ng-disabled="vm.uploadStep == 1" ng-show="vm.uploadStep != 3"> Save </button>
 			</div>
 		</div>
 
 
 
-
-
+		<!-- ********* Assign modal **********-->
 
 		<div id="assignModal" class='modal fade' ng-show="vm.modal === 'assignOrders'">
 			<div class="modal-body">
-				<div id="assignOrdersMap"></div>
+				<div id="assignOrdersMap" class="fade" ng-show="vm.assignStep == 1"></div>
+
+				<div id="selectDriver" class="upload-area fadein fade" ng-show="vm.assignStep == 2">
+					<h3> {{vm.ordersSelected}} selected orders </h3>
+					<select id="driverSelection" class="form-control" ng-model="vm.selectedDriver">
+						<option value="0" selected>Choose driver</option>
+						<option ng-repeat="driver in vm.drivers" value="{{driver.driverId}}">Driver #{{driver.driverId}}</option>
+					</select>
+				</div>
 			</div>
+
 			<div class="modal-footer">
-				<div class="btn btn-transparent fade" ng-click="vm.modal = ''"> Cancel </div>
+				<button class="btn btn-transparent fade" ng-click="vm.modal = ''"> Cancel </button>
+
 				<div class="info fadein fade absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == true"> <img class="icon" src="img/info.svg" /> Select orders by drawing a polygon around them </div>
-				<div class="btn fadein fade btn-transparent lowercase absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == false" ng-click="vm.retrySelection()"> Retry </div>
-				<div class="btn uppercase fade" ng-show="vm.assignStep == 1" ng-click="vm.assignStep = 2"> Next </div>
+				<button class="btn fadein fade btn-transparent lowercase absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == false" ng-click="vm.retrySelection()"> Retry </button>
+				<button class="btn uppercase fade" ng-show="vm.assignStep == 1" ng-disabled="vm.orderSelection == true" ng-click="vm.assignStep = 2"> Next </button>
+
+				<button class="btn uppercase fadein fade" ng-show="vm.assignStep == 2" ng-disabled="vm.selectedDriver == 0" ng-click="vm.assignOrdersToDriver()"> Assign </button>
 			</div>
 		</div>
 
@@ -104,16 +118,6 @@
 
 		<div id="generate-trip-btn" class="floating-btn fadein" tooltip="Upload order" ng-click="vm.openOrderCreation()">
 			<img src="img/road.svg" />
-		</div>
-
-		<div id="generate-trip-container" class="fade" ng-show="vm.modal == 'generateTrip'" ng-click="vm.modal=''">
-			<div id="generate-trip" ng-click="$event.stopPropagation()">
-				<h3> Assign trip to a driver </h3>
-				<select class="form-control" ng-model="vm.tripDriver" ng-change="vm.generateTrip()">
-					<option value="0" selected>Select driver</option>
-					<option ng-repeat="driver in vm.drivers" value="{{driver.driverId}}">Driver #{{driver.driverId}}</option>
-				</select>
-			</div>
 		</div>
 
 	</div>

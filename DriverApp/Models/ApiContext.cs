@@ -10,7 +10,7 @@ namespace DriverApp.Models
     {
         public ApiContext(DbContextOptions<ApiContext> options)
             : base(options)
-        { /*Database.EnsureCreated();*/ }
+        { Database.EnsureCreated(); }
 
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Driver> Drivers { get; set; }
