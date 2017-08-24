@@ -32,7 +32,7 @@
 			return $http.post('/api/routing/trigger', {driverId});
 		}
 
-		this.assignOrder = function(orders, driverId) {
+		this.assignOrders = function(orders, driverId) {
 			return $http.post('/api/manager/assignOrders', {orders, driverId});
 		}
 

@@ -109,20 +109,21 @@
 
         this.openAssignModal = function() {
             this.modal = 'assignOrders';
-            this.retrySelection();
-            this.assignStep = 1;
-            this.ordersSelected = 0;
-            this.selectedDriver = '0';
+            resetAssignModal();
 
             $timeout(function() {
                 _this.initMap();
             }, 300);
-
         }
 
-        this.retrySelection = function() {
+        this.closeAssignModal = function() {
+            this.modal = '';
+            resetAssignModal();
+        }
+
+        this.resetSelection = function() {
             this.orders.forEach(function(order) {
-                order.marker.setIcon(icon);
+                if (order.marker) order.marker.setIcon(icon);
                 order.selected = false;
             });
 
@@ -132,6 +133,7 @@
 
             this.mapShapes = [];
             this.orderSelection = true;
+            this.ordersSelected = 0;
         }
 
         this.assignOrdersToDriver = function() {
@@ -196,6 +198,13 @@
             });
         }
 
+
+
+        function resetAssignModal() {
+            _this.assignStep = 1;
+            _this.selectedDriver = '0';
+            _this.resetSelection();
+        }
     }
 
 

@@ -103,10 +103,10 @@
 			</div>
 
 			<div class="modal-footer">
-				<button class="btn btn-transparent fade" ng-click="vm.modal = ''"> Cancel </button>
+				<button class="btn btn-transparent fade" ng-click="vm.closeAssignModal()"> Cancel </button>
 
 				<div class="info fadein fade absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == true"> <img class="icon" src="img/info.svg" /> Select orders by drawing a polygon around them </div>
-				<button class="btn fadein fade btn-transparent lowercase absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == false" ng-click="vm.retrySelection()"> Retry </button>
+				<button class="btn fadein fade btn-transparent lowercase absolute-center" ng-show="vm.assignStep == 1 && vm.orderSelection == false" ng-click="vm.resetSelection()"> Retry </button>
 				<button class="btn uppercase fade" ng-show="vm.assignStep == 1" ng-disabled="vm.orderSelection == true" ng-click="vm.assignStep = 2"> Next </button>
 
 				<button class="btn uppercase fadein fade" ng-show="vm.assignStep == 2" ng-disabled="vm.selectedDriver == 0" ng-click="vm.assignOrdersToDriver()"> Assign </button>
