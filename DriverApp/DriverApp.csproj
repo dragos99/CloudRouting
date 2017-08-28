@@ -15,12 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\js\Api.js" />
-    <Content Include="wwwroot\js\app.js" />
-    <Content Include="wwwroot\js\Auth.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Properties\PublishProfiles\" />

@@ -1,22 +1,54 @@
 <div id="header">
-	<div id="page-title">Trips</div>
-	<div class="btn btn-transparent light"> Generate trip </div>
+	<div id="page-title">
+		<h1> Trips </h1>
+		<h5> 3 trips </h5>
+	</div>
 </div>
 <div id="container">
-	<div id="trips-container">
-		<div id="trips">
-			<div id="trip-container">
-				<div class="card-container fadein">
-					<div class="card trip">
-						<div class="card-header trip-header">
+	<div id="trips-container" class="absolute-center">
+		<table id="trips" class="table">
+			<thead>
+				<tr>
+					<th> Driver </th>
+					<th> Distance </th>
+					<th> Duration </th>
+					<th> Stops </th>
+					<th style="width:10%"> Map </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td> #2 </td>
+					<td> 41km </td>
+					<td> 79 minutes </td>
+					<td> 3 stops </td>
+					<td> <button class="btn" ng-click="vm.viewTrip()"> View </button> </td>
+				</tr>
+				<tr>
+					<td> #1 </td>
+					<td> 37km </td>
+					<td> 61 minutes </td>
+					<td> 3 stops </td>
+					<td> <button class="btn" ng-click="vm.viewTrip()"> View </button> </td>
+				</tr>
+				<tr>
+					<td> #1 </td>
+					<td> 14km </td>
+					<td> 25 minutes </td>
+					<td> 2 stops </td>
+					<td> <button class="btn" ng-click="vm.viewTrip()"> View </button> </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-						</div>
-						<div class="card-body trip-body">
+	<div id="viewTripModal" class='modal fade' ng-show="vm.modal === 'viewTrip'">
+		<div class="modal-body">
+			<div id="tripMap"></div>
+		</div>
 
-						</div>
-					<div>
-				</div>
-			</div>
-		<div>
+		<div class="modal-footer">
+			<button class="btn btn-transparent fade" ng-click="vm.closeViewTripModal()"> Cancel </button>
+		</div>
 	</div>
 </div>

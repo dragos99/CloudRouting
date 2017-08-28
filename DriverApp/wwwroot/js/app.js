@@ -29,7 +29,12 @@
 				}
 			})
 			.when("/trips", {
-				templateUrl: "views/trips.html"
+				templateUrl: "views/trips.html",
+				controller: 'TripsCtrl',
+				controllerAs: 'vm',
+				resolve: {
+
+				}
 			});
 	});
 
