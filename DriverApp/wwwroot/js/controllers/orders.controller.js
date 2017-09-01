@@ -24,12 +24,12 @@
 
         var icon = {
             url: "img/marker-red.png", // url
-            scaledSize: new google.maps.Size(24, 38), // scaled size
+            scaledSize: new google.maps.Size(22, 43), // scaled size
         }
 
         var selectedIcon = {
-            url: "img/marker.green.png", // url
-            scaledSize: new google.maps.Size(24, 38), // scaled size
+            url: "img/marker-green.png", // url
+            scaledSize: new google.maps.Size(22, 43), // scaled size
         };
 
 
