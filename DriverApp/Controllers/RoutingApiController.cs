@@ -36,6 +36,13 @@ namespace DriverApp.Controllers
             return _dbRepo.GetTripOrders(id);
         }
 
+        [HttpPost("orders/setcomplete")]
+        public string SetOrderComplete([FromBody] ReceiveSetOrderCompleteDto data)
+        {
+            //string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            return _dbRepo.SetOrderComplete(data.orderId, (data.isComplete.Equals("true") ? true : false));
+        }
+
         [HttpPost("trips")]
         public IEnumerable<Trip> GetUnplannedOrders([FromBody] ReceiveTriggerRequestDto data)
         {
@@ -58,6 +65,23 @@ namespace DriverApp.Controllers
             }
 
 			return 0;
+        }
+        [HttpPost("optimize/{id}")]
+        public List<Order> OptimizeRouting(int id, [FromBody] ReceiveTriggerRequestDto data)
+        {
+            string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            string driverId = data.driverId;
+            if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
+            if (id == 0) return new List<Order>();
+
+            IEnumerable<Order> orders = _dbRepo.GetTripOrders(id);
+            if (orders.Any())
+            {
+                var planned = _dbRepo.UpdateTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId, id);
+                return planned;
+            }
+
+            return new List<Order>();
         }
     }
 }
