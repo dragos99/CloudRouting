@@ -118,6 +118,7 @@
 
         this.closeAssignModal = function() {
             this.modal = '';
+            this.selectedDriver = '0';
             resetAssignModal();
         }
 
@@ -142,7 +143,10 @@
                 if (order.selected) data.push(order.id);
             });
             Api.assignOrders(data, this.selectedDriver).then(function(res) {
-                console.log(res);
+                if (res.data === 'ok') {
+                    alert('Success, ' + _this.ordersSelected + ' orders assigned to driver ' + this.selectedDriver);
+                    closeAssignModal();
+                }
             });
         }
 

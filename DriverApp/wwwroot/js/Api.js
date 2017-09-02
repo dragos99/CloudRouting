@@ -17,7 +17,7 @@
 		}
 
 		this.getOrders = function() {
-			return $http.get('/api/routing/orders').then(function(res) {
+			return $http.get('/api/routing/orders/unassigned').then(function(res) {
 				return res.data;
 			});
 		}

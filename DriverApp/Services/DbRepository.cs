@@ -39,6 +39,12 @@ namespace DriverApp.Services
             return orders;
         }
 
+        public IEnumerable<Order> GetUnassignedOrders()
+        {
+            IEnumerable<Order> orders = _db.Orders.Where(m => m.DriverId == 0);
+            return orders;
+        }
+
         public IEnumerable<Order> GetTripOrders(int tripid)
         {
             IEnumerable<Order> trips = _db.Orders.Where(m => m.TripId == tripid);
