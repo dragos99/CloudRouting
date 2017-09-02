@@ -24,12 +24,6 @@ namespace DriverApp.Controllers
             _logger = loggerFactory.CreateLogger("RoutingApiLogger");
         }
 
-        [HttpGet("orders")]
-        public IEnumerable<Order> GetUnplannedOrders()
-        {
-            return _dbRepo.GetUnplannedOrders();
-        }
-
         [HttpGet("orders/unassigned")]
         public IEnumerable<Order> GetUnassignedOrders()
         {
@@ -43,6 +37,13 @@ namespace DriverApp.Controllers
         }
 
 
+        [HttpPost("orders/setcomplete")]
+        public string SetOrderComplete([FromBody] ReceiveSetOrderCompleteDto data)
+        {
+            //string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            return _dbRepo.SetOrderComplete(data.orderId, (data.isComplete.Equals("true") ? true : false));
+        }
+
 
         [HttpPost("trigger")]
         public int TriggerRouting([FromBody] ReceiveTriggerRequestDto data)
@@ -51,7 +52,7 @@ namespace DriverApp.Controllers
 			string driverId = data.driverId;
 			if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
 
-			IEnumerable<Order> orders = _dbRepo.GetUnplannedOrders();
+			IEnumerable<Order> orders = _dbRepo.GetDriverOrders(customerKey, driverId);
             if (orders.Any())
             {
                 int planned = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId);
@@ -59,6 +60,23 @@ namespace DriverApp.Controllers
             }
 
 			return 0;
+        }
+        [HttpPost("optimize/{id}")]
+        public List<Order> OptimizeRouting(int id, [FromBody] ReceiveTriggerRequestDto data)
+        {
+            string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            string driverId = data.driverId;
+            if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
+            if (id == 0) return new List<Order>();
+
+            IEnumerable<Order> orders = _dbRepo.GetTripOrders(id);
+            if (orders.Any())
+            {
+                var planned = _dbRepo.UpdateTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId, id);
+                return planned;
+            }
+
+            return new List<Order>();
         }
     }
 }

@@ -33,15 +33,15 @@ namespace DriverApp.Services
             return _db.Drivers.Where(d => d.CustomerKey == key).ToList();
         }
 
-        public IEnumerable<Order> GetUnplannedOrders()
+        public IEnumerable<Order> GetUnassignedOrders()
         {
-            IEnumerable<Order> orders = _db.Orders.Where(m => m.TripId == 0);
+            IEnumerable<Order> orders = _db.Orders.Where(m => m.DriverId == null);
             return orders;
         }
 
-        public IEnumerable<Order> GetUnassignedOrders()
+        public IEnumerable<Order> GetDriverOrders(string customerKey, string driverId)
         {
-            IEnumerable<Order> orders = _db.Orders.Where(m => m.DriverId == 0);
+            IEnumerable<Order> orders = _db.Orders.Where(o => o.AccountId == customerKey && o.DriverId == driverId);
             return orders;
         }
 
@@ -61,6 +61,15 @@ namespace DriverApp.Services
         {
             IEnumerable<Trip> trips = _db.Trips.Where(t => t.AccountId == customerKey && t.DriverId == driverId);
             return trips;
+        }
+
+        public string SetOrderComplete(int orderId, bool isComplete)
+        {
+            _logger.LogInformation("Request sent! Order ID: " + orderId + ", isComplete: " + isComplete.ToString());
+            _db.Orders.Where(d => d.Id == orderId).FirstOrDefault().Complete = isComplete;
+            _db.SaveChanges();
+            return null;
+
         }
 
         public Driver GetDriver(string key, string id)
@@ -88,9 +97,10 @@ namespace DriverApp.Services
 
 				if (trip.NOfStops == 0) return 0;
 
-				List<Order> orders = GetUnplannedOrders().ToList();
+				List<Order> orders = GetDriverOrders(customerKey, driverId).ToList();
 				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
 				int lastid = _db.Trips.Last().Id + 1;
+                int k = 0;
 
 				foreach (var stop in stops)
 				{
@@ -101,6 +111,8 @@ namespace DriverApp.Services
 					order.ArrivalDateTime = stop.ArrivalDateTime;
 					order.DepartureDateTime = stop.DepartureDateTime;
 					order.Distance = stop.Distance;
+                    order.OrderNumber = (++k).ToString();
+                    //order.GeoX = stop.
 				}
 
 				_db.SaveChanges();
@@ -112,6 +124,50 @@ namespace DriverApp.Services
             }
 
             return response.OutputPlan.Routes[0].Stops.Count;
+        }
+        public List<Order> UpdateTrip(TriggerResponse response, string customerKey, string driverId, int tripId)
+        {
+            List<Order> orders = new List<Order>();
+            try
+            {
+                var trip = new Trip
+                {
+                    AccountId = customerKey,
+                    DriverId = driverId,
+                    AvailableFromTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
+                    AvailableTillTime = DateTime.Parse(response.OutputPlan.Routes[0].FinishDateTime),
+                    StartTime = DateTime.Parse(response.OutputPlan.Routes[0].StartDateTime),
+                    FinishTime = DateTime.Parse(response.OutputPlan.Routes[0].FinishDateTime),
+                    TotalDistanceInKm = response.OutputPlan.Routes[0].Distance,
+                    TotalDurationInSec = response.OutputPlan.Routes[0].DurationInSec,
+                    NOfStops = response.OutputPlan.Routes[0].NofStops
+                };
+
+                orders = GetTripOrders(tripId).ToList();
+                List<Stop> stops = response.OutputPlan.Routes[0].Stops;
+                int k = 0;
+
+                foreach (var stop in stops)
+                {
+                    var order = orders.Find(o => o.Id.ToString() == stop.AddressId);
+                    if (order == null) continue;
+                    order.StopSequence = stop.StopSequence;
+                    order.ArrivalDateTime = stop.ArrivalDateTime;
+                    order.DepartureDateTime = stop.DepartureDateTime;
+                    order.Distance = stop.Distance;
+                    order.OrderNumber = (++k).ToString();
+                    //order.GeoX = stop.
+                }
+
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("Update Trip exception " + e.Message);
+                return new List<Order>();
+            }
+
+            return orders;
         }
     }
 }

@@ -4,8 +4,8 @@ namespace DriverApp.Models
     public class Order
     {
 		public int Id { get; set; }
-		public int AccountId { get; set; }
-		public int DriverId { get; set; }
+		public string AccountId { get; set; }
+		public string DriverId { get; set; }
 		public int TripId { get; set; }
 		public int FixedDurationInSec { get; set; }
 		public int StopDurationInSec { get; set; }

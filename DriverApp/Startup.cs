@@ -33,8 +33,8 @@ namespace DriverApp
             services.AddCors();
             services.AddMvc();
 
-			//var connection = @"Server=tcp:orteccloudroutingdbserver.database.windows.net,1433;Initial Catalog=cloudrouting_db;Persist Security Info=False;User ID=cloudrouting;Password=Ortec1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-			services.AddDbContext<ApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=cloudrouting_db;Trusted_Connection=True;";
+            services.AddDbContext<ApiContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<DbRepository>();
 			services.AddSingleton<CloudApi>();

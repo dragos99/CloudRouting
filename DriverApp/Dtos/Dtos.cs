@@ -32,14 +32,17 @@ namespace DriverApp.Dtos
 		public string driverId;
 	}
 
-	public class ReceiveOrdersAssignationDto
+    public class ReceiveSetOrderCompleteDto
+    {
+        public string isComplete;
+        public int orderId;
+    }
+
+    public class ReceiveOrdersAssignationDto
 	{
 		public int[] orders;
-		public int driverId;
+		public string driverId;
 	}
-
-
-
 
 	public class SendDriverDto
 	{

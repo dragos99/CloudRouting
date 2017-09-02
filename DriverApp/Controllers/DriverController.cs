@@ -31,5 +31,13 @@ namespace DriverApp.Controllers
             string driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
             return _dbRepo.GetDriverTrips(customerKey, driverId);
         }
+
+        [HttpGet("orders")]
+        public IEnumerable<Order> GetDriverOrders()
+        {
+            string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
+            string driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
+            return _dbRepo.GetDriverOrders(customerKey, driverId);
+        }
     }
 }
