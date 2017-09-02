@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using DriverApp.Dtos;
 
+
 namespace DriverApp.Controllers
 {
 	[Authorize(Policy = "AllUsers")]

@@ -39,10 +39,11 @@ namespace DriverApp.Services
             return orders;
         }
 
-        public IEnumerable<Order> GetDriverOrders(string customerKey, string driverId)
+        public List<Order> GetDriverOrders(string customerKey, string driverId)
         {
-            IEnumerable<Order> orders = _db.Orders.Where(o => o.AccountId == customerKey && o.DriverId == driverId);
-            return orders;
+            _logger.LogInformation("Getting driver orders " + driverId);
+            return _db.Orders.Where(o => o.DriverId == driverId).ToList();
+  
         }
 
         public IEnumerable<Order> GetTripOrders(int tripid)
@@ -97,14 +98,20 @@ namespace DriverApp.Services
 
 				if (trip.NOfStops == 0) return 0;
 
-				List<Order> orders = GetDriverOrders(customerKey, driverId).ToList();
-				List<Stop> stops = response.OutputPlan.Routes[0].Stops;
-				int lastid = _db.Trips.Last().Id + 1;
-                int k = 0;
+
+                List<Order> orders = GetDriverOrders(customerKey, driverId);
+                List<Stop> stops = response.OutputPlan.Routes[0].Stops;
+                int lastid = 1, k = 0;
+                if (_db.Trips.Count() != 0)
+                {
+                    lastid = _db.Trips.Last().Id + 1;
+                } 
+
+                
 
 				foreach (var stop in stops)
 				{
-                    var order = orders.Find(o => o.Id.ToString() == stop.AddressId);
+                    var order = orders.Where(o => o.Id.ToString() == stop.AddressId).FirstOrDefault();
 					if (order == null) continue;
 					order.TripId = lastid;
 					order.StopSequence = stop.StopSequence;

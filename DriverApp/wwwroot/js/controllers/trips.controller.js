@@ -4,9 +4,12 @@
     var app = angular.module('app');
     app.controller('TripsCtrl', TripsController);
 
-    function TripsController($timeout) {
+    function TripsController($timeout, trips) {
         var _this = this;
         this.modal = '';
+        this.trips = trips;
+
+        console.log(this.trips);
 
 
         this.viewTrip = function() {

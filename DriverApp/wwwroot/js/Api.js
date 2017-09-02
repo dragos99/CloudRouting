@@ -36,5 +36,11 @@
 			return $http.post('/api/manager/assignOrders', {orders, driverId});
 		}
 
+		this.getTrips = function() {
+			return $http.get('/api/manager/trips').then(function(res) {
+				return res.data;
+			});
+		}
+
 	});
 })();

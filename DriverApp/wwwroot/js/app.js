@@ -33,7 +33,9 @@
 				controller: 'TripsCtrl',
 				controllerAs: 'vm',
 				resolve: {
-
+					trips: function(Api) {
+						return Api.getTrips();
+					}
 				}
 			});
 	});
