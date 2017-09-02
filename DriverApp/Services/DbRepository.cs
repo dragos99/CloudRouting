@@ -51,9 +51,15 @@ namespace DriverApp.Services
             return trips;
         }
 
-        public IEnumerable<Trip> GetDriverTrips(string customerKey)
+        public IEnumerable<Trip> GetTrips(string customerKey)
         {
             IEnumerable<Trip> trips = _db.Trips.Where(m => m.AccountId == customerKey);
+            return trips;
+        }
+
+        public IEnumerable<Trip> GetDriverTrips(string customerKey, string driverId)
+        {
+            IEnumerable<Trip> trips = _db.Trips.Where(t => t.AccountId == customerKey && t.DriverId == driverId);
             return trips;
         }
 

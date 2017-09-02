@@ -144,8 +144,9 @@
             });
             Api.assignOrders(data, this.selectedDriver).then(function(res) {
                 if (res.data === 'ok') {
-                    alert('Success, ' + _this.ordersSelected + ' orders assigned to driver ' + this.selectedDriver);
-                    closeAssignModal();
+                    alert('Success, ' + _this.ordersSelected + ' orders assigned to driver ' + _this.selectedDriver);
+                    _this.closeAssignModal();
+                    $route.reload();
                 }
             });
         }

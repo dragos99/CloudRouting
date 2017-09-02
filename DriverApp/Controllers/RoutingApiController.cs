@@ -42,12 +42,7 @@ namespace DriverApp.Controllers
             return _dbRepo.GetTripOrders(id);
         }
 
-        [HttpPost("trips")]
-        public IEnumerable<Trip> GetTrips()
-        {
-            string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
-            return _dbRepo.GetDriverTrips(customerKey);
-        }
+
 
         [HttpPost("trigger")]
         public int TriggerRouting([FromBody] ReceiveTriggerRequestDto data)
