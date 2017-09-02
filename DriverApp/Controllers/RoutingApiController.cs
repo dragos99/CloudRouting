@@ -30,6 +30,12 @@ namespace DriverApp.Controllers
             return _dbRepo.GetUnplannedOrders();
         }
 
+        [HttpGet("orders/unassigned")]
+        public IEnumerable<Order> GetUnassignedOrders()
+        {
+            return _dbRepo.GetUnassignedOrders();
+        }
+
         [HttpGet("orders/{id}")]
         public IEnumerable<Order> GetTripOrders(int id)
         {
