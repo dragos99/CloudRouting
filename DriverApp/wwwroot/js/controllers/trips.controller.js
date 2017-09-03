@@ -4,24 +4,26 @@
     var app = angular.module('app');
     app.controller('TripsCtrl', TripsController);
 
-    function TripsController($timeout, trips) {
+    function TripsController($timeout, trips, Api) {
         var _this = this;
         this.modal = '';
         this.trips = trips;
 
-        console.log(this.trips);
-
-
-        this.viewTrip = function() {
-            this.modal = 'viewTrip';
-            $timeout(initMap, 300);
+        this.viewTrip = function(idx) {
+            Api.getTripOrders(this.trips[idx].id).then(function(res) {
+                _this.modal = 'viewTrip';
+                $timeout(function() {
+                    initMap(res.data);
+                }, 300);
+            });
         }
 
         this.closeViewTripModal = function() {
             this.modal = '';
         }
 
-        function initMap() {
+        function initMap(stops) {
+            console.log(stops);
             var directionsService = new google.maps.DirectionsService;
             var directionsDisplay = new google.maps.DirectionsRenderer;
             var map = new google.maps.Map(document.getElementById('tripMap'), {
@@ -31,19 +33,33 @@
 
             directionsDisplay.setMap(map);
 
-            calculateAndDisplayRoute(directionsService, directionsDisplay);
+            calculateAndDisplayRoute(directionsService, directionsDisplay, stops);
         }
 
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        function calculateAndDisplayRoute(directionsService, directionsDisplay, stops) {
             var waypts = [];
-            waypts.push({
-                location: {lat: 45.443752, lng: -75.728965},
-                stopover: true
+            var lastStop = 0, destination;
+
+            stops.forEach(function(stop) {
+                if (stop.stopSequence > lastStop) {
+                    lastStop = stop.stopSequence;
+                    destination = {lat: stop.givenX, lng: stop.givenY};
+                }
             });
 
+
+            stops.forEach(function(stop) {
+                if (stop.stopSequence == lastStop) return;
+                waypts.push({
+                    location: {lat: stop.givenX, lng: stop.givenY},
+                    stopover: true
+                });
+            });
+
+
             directionsService.route({
-                origin: 'montreal, quebec',
-                destination: 'toronto, ont',
+                origin: 'ortec cee, bucharest, romania',
+                destination: destination,
                 waypoints: waypts,
                 optimizeWaypoints: true,
                 travelMode: 'DRIVING'

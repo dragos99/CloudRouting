@@ -42,7 +42,7 @@ namespace DriverApp.Services
         public List<Order> GetDriverOrders(string customerKey, string driverId)
         {
             _logger.LogInformation("Getting driver orders " + driverId);
-            return _db.Orders.Where(o => o.DriverId == driverId).ToList();
+            return _db.Orders.Where(o => o.DriverId == driverId && o.TripId == 0).ToList();
   
         }
 
@@ -94,19 +94,16 @@ namespace DriverApp.Services
 					NOfStops = response.OutputPlan.Routes[0].NofStops
 				};
 
-				_db.Trips.Add(trip);
+                if (trip.NOfStops == 0) return 0;
 
-				if (trip.NOfStops == 0) return 0;
+                _db.Trips.Add(trip);
+                _db.SaveChanges();
 
 
                 List<Order> orders = GetDriverOrders(customerKey, driverId);
                 List<Stop> stops = response.OutputPlan.Routes[0].Stops;
                 int lastid = 1, k = 0;
-                if (_db.Trips.Count() != 0)
-                {
-                    lastid = _db.Trips.Last().Id + 1;
-                } 
-
+                lastid = _db.Trips.Last().Id;
                 
 
 				foreach (var stop in stops)

@@ -40,7 +40,7 @@ namespace DriverApp.Services
 					RequestParameters = new List<RequestParameter> { new RequestParameter { Name = "command", Value = "single-route" } },
 					Data = new RequestData
 					{
-						Addresses = new List<Address> { new Address { Lat = 44.44462f, Long = 26.05474f, Id = "depot" } },
+						Addresses = new List<Address> { new Address { Lat = 44.428882f, Long = 26.0502884f, Id = "depot" } },
 						Depots = new List<Depot> { new Depot { AddressId = "depot", Id = 1 } },
 						Routes = new List<Route> { new Route { Id = 1 } }
 					}

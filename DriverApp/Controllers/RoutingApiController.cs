@@ -53,14 +53,17 @@ namespace DriverApp.Controllers
 			string driverId = data.driverId;
 			if (driverId == null) driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
 
-			IEnumerable<Order> orders = _dbRepo.GetDriverOrders(customerKey, driverId);
-            if (orders.Any())
+			List<Order> orders = _dbRepo.GetDriverOrders(customerKey, driverId);
+            if (orders.Count() > 0)
             {
+                
                 int planned = _dbRepo.InsertTrip(_cloudApi.TriggerRouting(orders).Result, customerKey, driverId);
 				return planned;
             }
 
-			return 0;
+            _logger.LogInformation(orders.Count().ToString());
+
+            return 0;
         }
         [HttpPost("optimize/{id}")]
         public List<Order> OptimizeRouting(int id, [FromBody] ReceiveTriggerRequestDto data)

@@ -42,5 +42,9 @@
 			});
 		}
 
+		this.getTripOrders = function(tripId) {
+			return $http.get('/api/routing/orders/' + tripId);
+		}
+
 	});
 })();
