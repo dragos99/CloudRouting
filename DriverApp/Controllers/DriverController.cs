@@ -2,6 +2,7 @@
 using DriverApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,10 +13,12 @@ namespace DriverApp.Controllers
     public class DriverController : Controller
     {
         private DbRepository _dbRepo;
+        private ILogger _logger;
 
-        public DriverController(DbRepository dbRepo)
+        public DriverController(DbRepository dbRepo, ILoggerFactory loggerFactory)
         {
             _dbRepo = dbRepo;
+            _logger = loggerFactory.CreateLogger("DriverLogger");
         }
 
         [HttpGet]
@@ -29,6 +32,7 @@ namespace DriverApp.Controllers
         {
             string customerKey = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CustomerKey").Value;
             string driverId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DriverId").Value;
+            _logger.LogInformation("CustomerKey: " + customerKey + ", DriverID: " + driverId);
             return _dbRepo.GetDriverTrips(customerKey, driverId);
         }
 

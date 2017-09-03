@@ -41,7 +41,7 @@ namespace DriverApp.Services
 
         public List<Order> GetDriverOrders(string customerKey, string driverId)
         {
-            _logger.LogInformation("Getting driver orders " + driverId);
+            //_logger.LogInformation("Getting driver orders " + driverId);
             return _db.Orders.Where(o => o.DriverId == driverId && o.TripId == 0).ToList();
   
         }
@@ -61,6 +61,10 @@ namespace DriverApp.Services
         public IEnumerable<Trip> GetDriverTrips(string customerKey, string driverId)
         {
             IEnumerable<Trip> trips = _db.Trips.Where(t => t.AccountId == customerKey && t.DriverId == driverId);
+            foreach (var trip in trips)
+            {
+                _logger.LogInformation("Returned trip: " + trip);
+            }
             return trips;
         }
 
