@@ -1,0 +1,7 @@
+streetName,streetNumber,cityName,countryCode,GivenX,GivenY,orderType,fixedDurationInSec,timeWindowFrom,timeWindowTill
+Bulevardul Timisoara,4A,Bucuresti,RO,44.4446173,26.054737,delivery,200,2017-11-09T12:00:00,2017-11-09T16:00:00
+Soseaua Berceni,45,Bucuresti,RO,44.386383,26.1261583,delivery,100,2017-11-09T12:00:00,2017-11-09T16:00:00
+Valea merilor,35,Bucuresti,RO,44.4479246,26.0982775,pickup,400,2017-11-09T12:00:00,2017-11-09T16:00:00
+Blvd. Carol I,10,Bucuresti,RO,44.4371912,26.118864,delivery,150,2017-11-09T12:00:00,2017-11-09T16:00:00
+Strada Pricopan,8,Bucuresti,RO,44.4078639,26.0712533,pickup,500,2017-11-09T12:00:00,2017-11-09T16:00:00
+Aleea Bran,6,Bucuresti,RO,44.412375,26.1134712,delivery,200,2017-11-09T12:00:00,2017-11-09T16:00:00
