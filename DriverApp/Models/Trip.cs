@@ -17,5 +17,6 @@ namespace DriverApp.Models
         public float TotalDistanceInKm { get; set; }
         public int TotalDurationInSec { get; set; }
 		public int NOfStops { get; set; }
+        public int Finished { get; set; }
     }
 }
