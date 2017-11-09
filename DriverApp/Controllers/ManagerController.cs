@@ -52,6 +52,7 @@ namespace DriverApp.Controllers
 			{
 				foreach (var order in data.orders)
 				{
+                    order.OrderNumber = "0";
 					_db.Orders.Add(order);
 				}
 

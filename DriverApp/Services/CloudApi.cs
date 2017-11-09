@@ -15,15 +15,15 @@ namespace DriverApp.Services
 	public class CloudApi
 	{
 		private ILogger _logger;
-		private string _key = "311A1B20704D4EA797EE6E9B1D618999";
-		private string _routingProfile = "R-EUR-001";
+		private string _key = "-";
+		private string _routingProfile = "-";
 		private HttpClient _client;
 
 		public CloudApi(ILoggerFactory fact)
 		{
 			_logger = fact.CreateLogger("CloudApiLogger");
 			_client = new HttpClient();
-			_client.BaseAddress = new Uri("https://test.orteccloudservices.com");
+			_client.BaseAddress = new Uri("-");
 		}
 
 

@@ -33,7 +33,7 @@ namespace DriverApp
             services.AddCors();
             services.AddMvc();
 
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=cloudrouting_db;Trusted_Connection=True;";
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=cloudrouting_db2;Trusted_Connection=True;";
             services.AddDbContext<ApiContext>(options => options.UseSqlServer(connection));
 
             services.AddTransient<DbRepository>();

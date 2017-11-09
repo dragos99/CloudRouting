@@ -100,6 +100,11 @@
 						<option ng-repeat="driver in vm.drivers" value="{{driver.driverId}}">Driver #{{driver.driverId}}</option>
 					</select>
 				</div>
+				
+				<div id="notify_success" class="fadein" ng-show="vm.assignStep == 3">
+					<img src="img/success.svg" width="100px"/>
+					<h3>Success! {{vm.ordersSelected}} orders assigned to driver {{vm.selectedDriver}}.</h3>
+				</div>
 			</div>
 
 			<div class="modal-footer">
